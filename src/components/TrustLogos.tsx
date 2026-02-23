@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 const logos = [
   { id: 1, name: "Via Capitale", image: "/images/logos/viacapitale.png" },
   { id: 2, name: "Samuel Brouillard", image: "/images/logos/brouillard.png" },
@@ -10,38 +10,38 @@ const logos = [
 
 export default function TrustLogos() {
   return (
-    <section className=" trust-section bg-black py-16 border-t border-white/10">
+    <section className=" trust-section bg-black  border-t border-white/10">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Title */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 mt-6">
           <p className="text-white/60 text-sm tracking-wider mb-2">
             ILS NOUS FONT
           </p>
           <h2 className="text-3xl font-bold text-white">CONFIANCE</h2>
         </div>
 
-        {/* Logos Grid */}
-        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
-          {logos.map((logo) => (
-            <div
-              key={logo.id}
-              className="w-24 h-16 md:w-32 md:h-20 flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity"
-            >
-              {/* Placeholder - replace with actual logos */}
-              <div className="text-white/50 text-xs text-center">
-                {logo.name}
+        {/* Logos Marquee */}
+        <div className="overflow-hidden">
+          <div className="flex animate-marquee will-change-transform">
+            {[logos, logos].map((group, gi) => (
+              <div key={gi} className="flex shrink-0">
+                {group.map((logo) => (
+                  <div
+                    key={logo.id}
+                    className="object-cover md:w-32 md:h-20 flex items-center shrink-0 mr-16"
+                  >
+                    <Image
+                      src={logo.image}
+                      alt={logo.name}
+                      width={80}
+                      height={60}
+                      className="object-contain"
+                    />
+                  </div>
+                ))}
               </div>
-              {/* When images are available:
-              <Image
-                src={logo.image}
-                alt={logo.name}
-                width={120}
-                height={60}
-                className="object-contain filter brightness-0 invert"
-              />
-              */}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

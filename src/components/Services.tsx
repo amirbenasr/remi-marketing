@@ -1,133 +1,283 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  MotionValue,
+} from "framer-motion";
 
 const services = [
   {
     id: 1,
     title: "PERFORMANCE\nMÉDIA",
-    icon: (
-      <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="8" y="12" width="48" height="36" rx="2" />
-        <line x1="8" y1="44" x2="56" y2="44" />
-        <rect x="24" y="48" width="16" height="4" />
-        <path d="M20 28 L28 22 L28 34 Z" />
-        <circle cx="40" cy="28" r="8" />
-        <line x1="36" y1="24" x2="44" y2="32" />
-      </svg>
-    ),
-    description:
-      "Maximisez votre ROI avec des campagnes publicitaires ciblées sur Facebook, Instagram, Google et TikTok. Nous optimisons chaque dollar investi pour générer des leads qualifiés et des conversions.",
+    details: [
+      {
+        title: "Facebook & Instagram Ads",
+        description:
+          "Campagnes ciblées pour générer des leads qualifiés et maximiser votre retour sur investissement.",
+      },
+      {
+        title: "Google Ads",
+        description:
+          "Référencement payant optimisé pour capter l'intention d'achat au bon moment.",
+      },
+      {
+        title: "TikTok Ads",
+        description:
+          "Contenus performants adaptés aux codes de la nouvelle génération.",
+      },
+    ],
   },
   {
     id: 2,
     title: "STUDIO\nCRÉATIF\nSUR MESURE",
-    icon: (
-      <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M32 8 L32 56" />
-        <path d="M32 8 L24 20 L32 18 L40 20 Z" />
-        <circle cx="40" cy="16" r="3" />
-      </svg>
-    ),
-    description:
-      "Des visuels qui captent l'attention et racontent votre histoire. Design graphique, montage vidéo, branding complet - notre équipe créative transforme vos idées en contenus mémorables.",
+    details: [
+      {
+        title: "Design Graphique",
+        description:
+          "Identités visuelles fortes qui reflètent l'essence de votre marque.",
+      },
+      {
+        title: "Montage Vidéo",
+        description:
+          "Contenus vidéo percutants conçus pour capter et retenir l'attention.",
+      },
+      {
+        title: "Branding Complet",
+        description:
+          "Du logo à la charte graphique, un univers cohérent et mémorable.",
+      },
+    ],
   },
   {
     id: 3,
     title: "CROISSANCE\nORGANIQUE\nRÉSEAUX\nSOCIAUX",
-    icon: (
-      <svg className="w-16 h-16" viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="32" cy="32" r="20" />
-        <path d="M32 12 L32 20" />
-        <path d="M32 44 L32 52" />
-        <path d="M12 32 L20 32" />
-        <path d="M44 32 L52 32" />
-        <circle cx="32" cy="32" r="8" />
-        <path d="M26 26 L20 16" />
-      </svg>
-    ),
-    description:
-      "Construisez une communauté engagée sans dépendre uniquement de la publicité. Stratégie de contenu, calendrier éditorial, gestion de communauté - nous développons votre présence de manière authentique.",
+    details: [
+      {
+        title: "Stratégie de Contenu",
+        description:
+          "Un calendrier éditorial pensé pour engager votre communauté en profondeur.",
+      },
+      {
+        title: "Gestion de Communauté",
+        description:
+          "Animation quotidienne de vos réseaux pour fidéliser votre audience.",
+      },
+      {
+        title: "Croissance Authentique",
+        description:
+          "Des méthodes durables pour développer votre présence sans dépendre de la pub.",
+      },
+    ],
   },
 ];
 
-export default function Services() {
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+const newServices = [
+  {
+    id: 4,
+    title: "SEO &\nRÉFÉRENCEMENT\nNATUREL",
+    details: [
+      {
+        title: "Audit SEO Complet",
+        description:
+          "Analyse approfondie de votre site pour identifier toutes les opportunités d'optimisation.",
+      },
+      {
+        title: "Stratégie de Mots-Clés",
+        description:
+          "Ciblage précis des requêtes à fort potentiel de trafic qualifié pour votre secteur.",
+      },
+      {
+        title: "Netlinking Éditorial",
+        description:
+          "Construction d'un profil de liens naturels pour renforcer votre autorité de domaine.",
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "EMAIL\nMARKETING\n& CRM",
+    details: [
+      {
+        title: "Séquences Automatisées",
+        description:
+          "Scénarios d'emailing intelligents pour convertir et fidéliser vos prospects automatiquement.",
+      },
+      {
+        title: "Newsletter Créative",
+        description:
+          "Des newsletters qui se lisent vraiment, conçues pour maximiser l'engagement.",
+      },
+      {
+        title: "Segmentation Avancée",
+        description:
+          "Personnalisez vos messages selon le comportement et le profil de chaque segment.",
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "ANALYTICS\n& DATA\nSTRATÉGIE",
+    details: [
+      {
+        title: "Tableaux de Bord",
+        description:
+          "Visualisez vos KPIs clés en temps réel pour des décisions marketing éclairées.",
+      },
+      {
+        title: "Tracking & Attribution",
+        description:
+          "Comprenez précisément quels canaux et actions génèrent votre croissance.",
+      },
+      {
+        title: "Reporting Mensuel",
+        description:
+          "Des rapports clairs et actionnables pour piloter et affiner votre stratégie.",
+      },
+    ],
+  },
+];
 
-  const toggleService = (id: number) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
+type Service = (typeof services)[0];
+
+const EyeIcon = () => (
+  <svg
+    className="w-7 h-7"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+  >
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+function ServiceCard({ service }: { service: Service }) {
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <section id="services" className="section-panel services-section min-h-screen bg-white py-20">
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Section Title */}
-        <div className="mb-16">
-          <h2 className="text-4xl font-bold text-black mb-4">SERVICES</h2>
-          <div className="w-full h-px bg-black/30"></div>
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((service) => (
-            <motion.div
-              key={service.id}
-              className="relative bg-[#1a1a1a] rounded-3xl p-8 min-h-[400px] flex flex-col cursor-pointer overflow-hidden"
-              onClick={() => toggleService(service.id)}
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.2 }}
-            >
-              {/* Default Content */}
-              <div className="flex-1 flex flex-col items-center justify-center text-center">
-                <div className="text-white/80 mb-8">{service.icon}</div>
-                <h3 className="text-white font-bold text-lg leading-tight whitespace-pre-line">
-                  {service.title}
-                </h3>
-              </div>
-
-              {/* Eye Icon Button */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-                <motion.div
-                  className="text-white/60 hover:text-white transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  <svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                    <circle cx="12" cy="12" r="3" />
-                    {/* Plus icon */}
-                    <line x1="20" y1="4" x2="20" y2="8" strokeWidth="2" />
-                    <line x1="18" y1="6" x2="22" y2="6" strokeWidth="2" />
-                  </svg>
-                </motion.div>
-              </div>
-
-              {/* Expanded Description Overlay */}
-              <AnimatePresence>
-                {expandedId === service.id && (
-                  <motion.div
-                    className="absolute inset-0 bg-[#1a1a1a] rounded-3xl p-8 flex flex-col justify-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <h3 className="text-white font-bold text-xl mb-4">
-                      {service.title.replace(/\n/g, " ")}
-                    </h3>
-                    <p className="text-gray-300 leading-relaxed">{service.description}</p>
-
-                    {/* Close hint */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/40 text-sm">
-                      Cliquez pour fermer
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
+    <div
+      className="relative bg-[#1a1a1a] rounded-3xl p-8 min-h-[400px] flex flex-col overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Default Content */}
+      <div className="flex-1 flex flex-col items-center justify-center text-center">
+        <div className="w-16 h-16 mb-8 text-white/80" />
+        <h3 className="text-white font-bold text-lg leading-tight whitespace-pre-line">
+          {service.title}
+        </h3>
       </div>
-    </section>
+
+      {/* Eye icon */}
+      <div className="absolute bottom-6 right-6 text-white/60">
+        <EyeIcon />
+      </div>
+
+      {/* Hover overlay */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            className="absolute inset-0 bg-[#1a1a1a] rounded-3xl p-8 flex flex-col justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="flex flex-col h-full justify-center divide-y divide-white/20">
+              {service.details.map((detail, i) => (
+                <div key={i} className="py-5 first:pt-0 last:pb-0">
+                  <p className="text-white font-semibold text-sm mb-1">
+                    {detail.title}
+                  </p>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    {detail.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="absolute bottom-6 right-6 text-white/60">
+              <EyeIcon />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function SlidingCard({
+  service,
+  index,
+  scrollYProgress,
+}: {
+  service: Service;
+  index: number;
+  scrollYProgress: MotionValue<number>;
+}) {
+  const y = useTransform(
+    scrollYProgress,
+    [index / 3, (index + 1) / 3],
+    ["100vh", "0vh"]
+  );
+
+  return (
+    <motion.div style={{ y }} className="pointer-events-auto">
+      <ServiceCard service={service} />
+    </motion.div>
+  );
+}
+
+export default function Services() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  return (
+    <div ref={containerRef} style={{ height: "250vh" }}>
+      <section
+        id="services"
+        className="section-panel services-section sticky top-0 h-screen bg-white overflow-hidden flex flex-col"
+      >
+        {/* Section Title */}
+        <div className="max-w-7xl mx-auto px-6 w-full pt-20 pb-8 flex-shrink-0">
+          <h2 className="text-4xl font-bold text-black mb-4">SERVICES</h2>
+          <div className="w-full h-px bg-black/30" />
+        </div>
+
+        {/* Cards — vertically centered in remaining space */}
+        <div className="flex-1 flex items-center overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 w-full">
+            <div className="relative">
+              {/* Original 3 cards — always visible underneath */}
+              <div className="grid md:grid-cols-3 gap-8">
+                {services.map((service) => (
+                  <ServiceCard key={service.id} service={service} />
+                ))}
+              </div>
+
+              {/* New 3 cards — slide up progressively on scroll */}
+              <div className="absolute inset-0 grid md:grid-cols-3 gap-8 pointer-events-none">
+                {newServices.map((service, i) => (
+                  <SlidingCard
+                    key={service.id}
+                    service={service}
+                    index={i}
+                    scrollYProgress={scrollYProgress}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

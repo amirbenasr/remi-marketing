@@ -3,6 +3,7 @@
 import { useEffect, useRef, ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 // Register GSAP plugin
 if (typeof window !== "undefined") {
@@ -15,8 +16,11 @@ interface ScrollStackProps {
 
 export default function ScrollStack({ children }: ScrollStackProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
+    if (isMobile) return;
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -45,25 +49,13 @@ export default function ScrollStack({ children }: ScrollStackProps) {
           gsap.set(panel, { zIndex: panels.length - index });
         },
       });
-
-      // Add subtle shadow animation when next section approaches
-      gsap.to(panel, {
-        scrollTrigger: {
-          trigger: panels[index + 1],
-          start: "top bottom",
-          end: "top top",
-          scrub: true,
-        },
-        scale: 0.8,
-        // filter: "brightness(0.7)",
-      });
     });
 
     // Cleanup
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div ref={containerRef} className="scroll-stack-container">

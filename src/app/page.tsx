@@ -12,7 +12,7 @@ import ScrollStack from "@/components/ScrollStack";
 export default function Home() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <main>
         <ScrollStack>
           <Hero />

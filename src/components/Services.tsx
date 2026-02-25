@@ -8,6 +8,7 @@ import {
   useTransform,
   MotionValue,
 } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const services = [
   {
@@ -156,15 +157,67 @@ const EyeIcon = () => (
   </svg>
 );
 
-function ServiceCard({ service }: { service: Service }) {
-  const [isHovered, setIsHovered] = useState(false);
+function ServiceCard({
+  service,
+  mobile = false,
+}: {
+  service: Service;
+  mobile?: boolean;
+}) {
+  const [isActive, setIsActive] = useState(false);
+
+  if (mobile) {
+    return (
+      <div
+        className="relative bg-[#1a1a1a] rounded-3xl p-6 min-h-[200px] flex flex-col overflow-hidden"
+        onClick={() => setIsActive((prev) => !prev)}
+      >
+        {/* Default Content */}
+        <div className="flex-1 flex flex-col items-center justify-center text-center">
+          <h3 className="text-white font-bold text-sm leading-tight whitespace-pre-line">
+            {service.title}
+          </h3>
+        </div>
+
+        {/* Eye icon */}
+        <div className="absolute bottom-4 right-4 text-white/60">
+          <EyeIcon />
+        </div>
+
+        {/* Tap overlay */}
+        <AnimatePresence>
+          {isActive && (
+            <motion.div
+              className="absolute inset-0 bg-[#1a1a1a] rounded-3xl p-6 flex flex-col justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="flex flex-col h-full justify-center divide-y divide-white/20">
+                {service.details.map((detail, i) => (
+                  <div key={i} className="py-3 first:pt-0 last:pb-0">
+                    <p className="text-white font-semibold text-xs mb-1">
+                      {detail.title}
+                    </p>
+                    <p className="text-gray-400 text-xs leading-relaxed">
+                      {detail.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-white/40 text-xs text-center mt-3">
+                Appuyer pour fermer
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    );
+  }
 
   return (
-    <div
-      className="relative bg-[#1a1a1a] rounded-3xl p-8 min-h-[400px] flex flex-col overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="relative bg-[#1a1a1a] rounded-3xl p-8 min-h-[200px] md:min-h-[400px] flex flex-col overflow-hidden">
       {/* Default Content */}
       <div className="flex-1 flex flex-col items-center justify-center text-center">
         <div className="w-16 h-16 mb-8 text-white/80" />
@@ -174,13 +227,16 @@ function ServiceCard({ service }: { service: Service }) {
       </div>
 
       {/* Eye icon */}
-      <div className="absolute bottom-6 right-6 text-white/60">
+      <button
+        className="absolute bottom-6 right-6 text-white/60 hover:text-white/90 transition-colors cursor-pointer"
+        onClick={() => setIsActive((prev) => !prev)}
+      >
         <EyeIcon />
-      </div>
+      </button>
 
       {/* Hover overlay */}
       <AnimatePresence>
-        {isHovered && (
+        {isActive && (
           <motion.div
             className="absolute inset-0 bg-[#1a1a1a] rounded-3xl p-8 flex flex-col justify-center"
             initial={{ opacity: 0 }}
@@ -200,9 +256,12 @@ function ServiceCard({ service }: { service: Service }) {
                 </div>
               ))}
             </div>
-            <div className="absolute bottom-6 right-6 text-white/60">
+            <button
+              className="absolute bottom-6 right-6 text-white/60 hover:text-white/90 transition-colors cursor-pointer"
+              onClick={() => setIsActive(false)}
+            >
               <EyeIcon />
-            </div>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -212,18 +271,12 @@ function ServiceCard({ service }: { service: Service }) {
 
 function SlidingCard({
   service,
-  index,
   scrollYProgress,
 }: {
   service: Service;
-  index: number;
   scrollYProgress: MotionValue<number>;
 }) {
-  const y = useTransform(
-    scrollYProgress,
-    [index / 3, (index + 1) / 3],
-    ["100vh", "0vh"]
-  );
+  const y = useTransform(scrollYProgress, [0.1, 0.7], ["100vh", "0vh"]);
 
   return (
     <motion.div style={{ y }} className="pointer-events-auto">
@@ -233,6 +286,7 @@ function SlidingCard({
 }
 
 export default function Services() {
+  const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -240,40 +294,77 @@ export default function Services() {
     offset: ["start start", "end end"],
   });
 
+  // Mobile: static grid, tap-toggle cards
+  if (isMobile) {
+    const allServices = [...services, ...newServices];
+    return (
+      <div id="services" className="bg-white py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2 className="text-4xl font-bold text-black mb-4">SERVICES</h2>
+          <motion.div
+            className="h-2 bg-black/30 mb-8"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{ originX: 1 }}
+            viewport={{ once: true }}
+          />
+          <div className="grid grid-cols-2 gap-4">
+            {allServices.map((service) => (
+              <ServiceCard key={service.id} service={service} mobile />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop: existing scroll-driven animation
   return (
-    <div ref={containerRef} style={{ height: "250vh" }}>
-      <section
-        id="services"
-        className="section-panel services-section sticky top-0 h-screen bg-white overflow-hidden flex flex-col"
-      >
+    <div id="services" ref={containerRef} style={{ height: "250vh" }}>
+      <section className="section-panel services-section sticky top-0 h-screen bg-white overflow-hidden flex flex-col">
         {/* Section Title */}
         <div className="max-w-7xl mx-auto px-6 w-full pt-20 pb-8 flex-shrink-0">
           <h2 className="text-4xl font-bold text-black mb-4">SERVICES</h2>
-          <div className="w-full h-px bg-black/30" />
+          {/* <motion.div
+            className="h-px bg-black/30"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{ originX: 1 }}
+            viewport={{ once: true }}
+          /> */}
+          <motion.div
+            className="h-[2px] bg-black my-3"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            style={{ originX: 1 }}
+            viewport={{ once: true, amount: 0.5 }}
+          />
         </div>
 
         {/* Cards — vertically centered in remaining space */}
         <div className="flex-1 flex items-center overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 w-full">
-            <div className="relative">
+            <div className="relative  overflow-hidden">
               {/* Original 3 cards — always visible underneath */}
-              <div className="grid md:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-3 gap-8 ">
                 {services.map((service) => (
                   <ServiceCard key={service.id} service={service} />
                 ))}
               </div>
 
               {/* New 3 cards — slide up progressively on scroll */}
-              <div className="absolute inset-0 grid md:grid-cols-3 gap-8 pointer-events-none">
-                {newServices.map((service, i) => (
+              <motion.div className="absolute top-0 overflow-hidden   left-0 right-0 grid md:grid-cols-3 gap-8 pointer-events-none">
+                {newServices.map((service) => (
                   <SlidingCard
                     key={service.id}
                     service={service}
-                    index={i}
                     scrollYProgress={scrollYProgress}
                   />
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

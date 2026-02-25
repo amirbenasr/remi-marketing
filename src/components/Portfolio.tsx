@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import TrustLogos from "./TrustLogos";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const portfolioItems = [
   {
@@ -56,13 +57,14 @@ interface PortfolioItemProps {
 
 function PortfolioItem({ item }: PortfolioItemProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const isMobile = useIsMobile();
 
   return (
     <motion.div
       className="relative aspect-video bg-gray-800 rounded-lg overflow-hidden cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      whileHover={{ scale: 1.02 }}
+      whileHover={isMobile ? undefined : { scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
       {/* Image container - swap between static and GIF on hover */}
@@ -99,27 +101,49 @@ function PortfolioItem({ item }: PortfolioItemProps) {
   );
 }
 
-export default function Portfolio() {
-  return (
-    <section
-      id="portfolio"
-      className="section-panel portfolio-section bg-black py-20"
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        {/* Section Title */}
-        <div className="text-right mb-16">
-          <p className="text-white/60 text-sm tracking-wider mb-2">NOS</p>
-          <h2 className="text-4xl font-bold text-white">RÉALISATIONS</h2>
-        </div>
+// Group A (slides from left): indices 0, 3, 4
+// Group B (slides from right): indices 1, 2, 5
+const GROUP_A = new Set([0, 3, 4]);
 
-        {/* Portfolio Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {portfolioItems.map((item) => (
-            <PortfolioItem key={item.id} item={item} />
-          ))}
+export default function Portfolio() {
+  const isMobile = useIsMobile();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "start 0.15"],
+  });
+
+  const leftX = useTransform(scrollYProgress, [0, 1], ["-60%", "0%"]);
+  const rightX = useTransform(scrollYProgress, [0, 1], ["60%", "0%"]);
+
+  return (
+    <div ref={containerRef}>
+      <section
+        id="portfolio"
+        className="section-panel portfolio-section bg-black py-20"
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          {/* Section Title */}
+          <div className="text-right mb-16">
+            <p className="text-white/60 text-sm tracking-wider mb-2">NOS</p>
+            <h2 className="text-4xl font-bold text-white">RÉALISATIONS</h2>
+          </div>
+
+          {/* Portfolio Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {portfolioItems.map((item, index) => (
+              <motion.div
+                key={item.id}
+                style={isMobile ? undefined : { x: GROUP_A.has(index) ? leftX : rightX }}
+              >
+                <PortfolioItem item={item} />
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </div>
-      <TrustLogos />
-    </section>
+        <TrustLogos />
+      </section>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { motion } from "framer-motion";
 const logos = [
   { id: 1, name: "Via Capitale", image: "/images/logos/viacapitale.png" },
   { id: 2, name: "Samuel Brouillard", image: "/images/logos/brouillard.png" },
@@ -10,14 +11,23 @@ const logos = [
 
 export default function TrustLogos() {
   return (
-    <section className=" trust-section bg-black  border-t border-white/10">
+    <section className=" trust-section bg-black">
       <div className="max-w-7xl mx-auto px-6">
+        {/* Animated HR */}
+        <motion.div
+          className="h-[2px] bg-white my-3"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          style={{ originX: 0.5 }}
+          viewport={{ once: true, amount: 0.5 }}
+        />
         {/* Section Title */}
         <div className="text-center mb-12 mt-6">
-          <p className="text-white/60 text-sm tracking-wider mb-2">
+          <p className="text-white text-md tracking-wider mb-2">
             ILS NOUS FONT
           </p>
-          <h2 className="text-3xl font-bold text-white">CONFIANCE</h2>
+          <h2 className="text-4xl font-bold text-white">CONFIANCE</h2>
         </div>
 
         {/* Logos Marquee */}
@@ -28,7 +38,7 @@ export default function TrustLogos() {
                 {group.map((logo) => (
                   <div
                     key={logo.id}
-                    className="object-cover md:w-32 md:h-20 flex items-center shrink-0 mr-16"
+                    className="w-20 h-14 md:w-32 md:h-20 flex items-center shrink-0 mr-8 md:mr-16"
                   >
                     <Image
                       src={logo.image}

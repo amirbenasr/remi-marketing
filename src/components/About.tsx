@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const founders = [
   {
@@ -123,6 +124,7 @@ function SlidingFounder({
 }
 
 export default function About() {
+  const isMobile = useIsMobile();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -131,16 +133,60 @@ export default function About() {
     offset: ["start start", "end end"],
   });
 
+  // Mobile: static vertical list, no scroll-driven animations
+  if (isMobile) {
+    return (
+      <div id="about" className="bg-black text-white">
+        <div className="px-6 pt-20 pb-8 max-w-7xl w-full mx-auto">
+          <h2 className="text-4xl font-bold mb-4">À PROPOS</h2>
+          <motion.div
+            className="h-[2px] bg-white"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{ originX: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+          />
+        </div>
+        <div className="max-w-7xl mx-auto px-6 pb-16 flex flex-col gap-12">
+          {founders.map((founder) => (
+            <div key={founder.name}>
+              <div className="aspect-[3/4] max-h-72 overflow-hidden relative bg-white mb-6">
+                <Image
+                  src={founder.image}
+                  alt={founder.name}
+                  fill
+                  className="object-cover object-top"
+                />
+              </div>
+              <h3 className="text-2xl font-bold mb-3 text-white">
+                {founder.name}
+              </h3>
+              <p className="text-gray-300 leading-relaxed text-sm">
+                {founder.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop: existing scroll-driven animation
   return (
-    <div ref={containerRef} style={{ height: "300vh" }}>
-      <section
-        id="about"
-        className="section-panel about-section sticky top-0 h-screen bg-black text-white flex flex-col overflow-hidden"
-      >
+    <div id="about" ref={containerRef} style={{ height: "300vh" }}>
+      <section className="section-panel about-section sticky top-0 h-screen bg-black text-white flex flex-col overflow-hidden">
         {/* Header — always visible */}
         <div className="px-6 pt-20 pb-8 max-w-7xl w-full mx-auto flex-shrink-0">
           <h2 className="text-4xl font-bold mb-4">À PROPOS</h2>
-          <div className="w-full h-px bg-white/30" />
+          <motion.div
+            className="h-[2px] bg-white"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            style={{ originX: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+          />
         </div>
 
         {/* Founder cards — stack on scroll */}

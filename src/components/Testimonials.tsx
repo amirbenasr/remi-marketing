@@ -55,12 +55,12 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="section-panel testimonials-section h-screen bg-black flex flex-col items-center justify-between py-20 overflow-hidden"
+      className="section-panel testimonials-section min-h-screen bg-black flex flex-col items-center justify-between py-16 md:py-20"
     >
       {/* Speech bubble header */}
       <div className="flex justify-center">
         <div className="relative">
-          <div className="bg-[#1a1a1a] rounded-2xl px-10 py-6">
+          <div className="bg-[#1a1a1a] rounded-2xl px-6 py-4 md:px-10 md:py-6">
             <h2 className="text-white text-center">
               <span className="block text-xl font-bold tracking-widest">CE QUE DISENT</span>
               <span className="block text-2xl font-bold tracking-widest">NOS PARTENAIRES</span>

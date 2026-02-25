@@ -16,14 +16,14 @@ const founders = [
   {
     name: "HOURIA",
     description:
-      "Co-fondatrice de l'agence REMY, est une experte en communication et en stratégie digitale. Avec une expérience riche dans le domaine du marketing, elle apporte une vision innovante et créative pour aider les marques à se démarquer et à atteindre leurs objectifs.",
+      "HOURIA Créative et passionnée, Houria donne vie aux marques à travers des visuels percutants et élégants. Son sens du détail et de l’esthétique fait de chaque projet une œuvre unique.",
     image: "/images/about/ANIMATION HOURIA.png",
     gif: "/images/about/ANIMATION HOURIA.gif",
   },
   {
     name: "LORENA",
     description:
-      "Directrice Créative de l'agence REMY, elle transforme les idées en identités visuelles mémorables. Avec un sens aigu de l'esthétique et une maîtrise des tendances actuelles, elle donne vie aux projets avec une créativité sans limites et une attention particulière aux détails.",
+      "LORENA  Visionnaire et organisée, Lorena veille à la réussite de chaque projet avec rigueur et créativité. Elle s’assure que chaque idée prenne forme avec clarté, efficacité et impact.",
     image: "/images/about/ANIMATION LORENA.png",
     gif: "/images/about/ANIMATION LORENA.gif",
   },

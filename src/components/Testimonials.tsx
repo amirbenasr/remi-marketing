@@ -59,15 +59,30 @@ export default function Testimonials() {
     >
       {/* Speech bubble header */}
       <div className="flex justify-center">
-        <div className="relative">
-          <div className="bg-[#1a1a1a] rounded-2xl px-6 py-4 md:px-10 md:py-6">
-            <h2 className="text-white text-center">
-              <span className="block text-xl font-bold tracking-widest">CE QUE DISENT</span>
-              <span className="block text-2xl font-bold tracking-widest">NOS PARTENAIRES</span>
-            </h2>
-          </div>
-          {/* Tail pointing down */}
-          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[14px] border-r-[14px] border-t-[16px] border-l-transparent border-r-transparent border-t-[#1a1a1a]" />
+        <div className="relative inline-flex items-center justify-center">
+          {/* Speech bubble icon — behind the text */}
+          <svg
+            width="200"
+            height="250"
+            viewBox="0 0 217 191"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[25%]"
+          >
+            <path
+              d="M63.9017 4H190.845C196.656 4.19431 202.164 6.6461 206.205 10.8372C210.246 15.0284 212.503 20.6305 212.5 26.4597V160.619C212.496 162.03 212.094 163.411 211.341 164.603C210.588 165.796 209.514 166.75 208.244 167.357C207.037 167.893 205.711 168.1 204.399 167.955C203.088 167.81 201.838 167.32 200.776 166.533L165.083 138.758H63.9017C57.9604 138.758 52.2625 136.392 48.0613 132.18C43.8602 127.968 41.5 122.255 41.5 116.298V26.4597C41.5 20.503 43.8602 14.7903 48.0613 10.5783C52.2625 6.36628 57.9604 4 63.9017 4Z"
+              fill="white"
+              fillOpacity="0.1"
+            />
+          </svg>
+          <h2 className="text-center relative z-10 text-white mb-12 ml-18">
+            <span className="block text-xl md:text-2xl font-bold tracking-[0.2em]">
+              CE QUE DISENT
+            </span>
+            <span className="block text-2xl md:text-3xl font-bold tracking-[0.2em]">
+              NOS PARTENAIRES
+            </span>
+          </h2>
         </div>
       </div>
 
@@ -93,8 +108,12 @@ export default function Testimonials() {
           </div>
 
           {/* Name & Company */}
-          <h3 className="text-white font-bold text-lg tracking-wide">{current.name}</h3>
-          <p className="text-white/50 text-sm mb-4 tracking-widest">{current.company}</p>
+          <h3 className="text-white font-bold text-lg tracking-wide">
+            {current.name}
+          </h3>
+          <p className="text-white/50 text-sm mb-4 tracking-widest">
+            {current.company}
+          </p>
 
           {/* Stars */}
           <div className="flex justify-center gap-1 mb-6">

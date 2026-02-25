@@ -12,7 +12,7 @@ export default function Hero() {
       {/* Background video */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="/videos/hero-bg.mp4"
+        src="https://remy.marketing/wp-content/uploads/2023/10/REMY-Loop30sec.mp4"
         poster="/images/hero-poster.jpg"
         autoPlay
         muted

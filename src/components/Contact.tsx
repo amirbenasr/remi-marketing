@@ -85,7 +85,7 @@ export default function Contact() {
     <div
       ref={sectionRef}
       id="contact"
-      className="section-panel contact-section  bg-black"
+      className="section-panel contact-section  bg-transparent min-h-screen  pt-32"
     >
       {/* Black spacer — visible while the page is still tilted */}
       {/* <div className="h-[30vh]" /> */}

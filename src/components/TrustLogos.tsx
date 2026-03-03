@@ -40,7 +40,7 @@ export default function TrustLogos() {
                 alt={logo.name}
                 width={200}
                 height={100}
-                className="shrink-0  mb-4 object-contain h-auto  w-auto mx-6 md:mx-10"
+                className="shrink-0 mb-4 object-contain max-h-[80px] w-auto mx-6 md:mx-10"
               />
             ))}
           </div>

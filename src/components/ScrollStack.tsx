@@ -40,6 +40,7 @@ export default function ScrollStack({ children }: ScrollStackProps) {
         pin: true,
         pinSpacing: false,
         scrub: 1,
+        // markers: true,
         // Add z-index so panels stack properly
         endTrigger: panels[index + 1],
         onEnter: () => {

@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, MotionValue } from "framer-motion";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { ChevronDownIcon } from "./icons";
 
@@ -121,6 +121,13 @@ export default function About() {
     target: containerRef,
     offset: ["start start", "end end"],
   });
+
+  const inView = useInView(containerRef, { once: true, amount: 0.1 });
+  useEffect(() => {
+    if (inView) {
+      founders.forEach((f) => { new window.Image().src = f.gif; });
+    }
+  }, [inView]);
 
   // Mobile: static vertical list, no scroll-driven animations
   if (isMobile) {

@@ -7,7 +7,8 @@ const inriaSerif = Inria_Serif({
 });
 
 const outfit = Outfit({
-  weight: "400",
+  weight: ["400", "600"],
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {

@@ -37,7 +37,7 @@ export default function Header() {
             width={120}
             height={34}
             priority
-            className="transition-all duration-300 hover:grayscale"
+            className="transition-all duration-300 hover:opacity-60 "
           />
         </Link>
 

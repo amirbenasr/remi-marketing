@@ -184,7 +184,7 @@ function ServiceCard({
         </div>
 
         {/* Eye icon */}
-        <div className="absolute bottom-4 right-4 text-white/60">
+        <div className=" absolute bottom-4 right-4 text-white/60">
           <EyeIcon />
         </div>
 
@@ -238,7 +238,7 @@ function ServiceCard({
 
       {/* Eye icon */}
       <button
-        className="absolute bottom-6 right-6 text-white/60 hover:text-white/90 transition-colors cursor-pointer"
+        className=" absolute bottom-6 right-6 text-white/60 hover:text-white/90 transition-colors cursor-pointer"
         onClick={() => setIsActive((prev) => !prev)}
       >
         <EyeIcon />
@@ -270,7 +270,7 @@ function ServiceCard({
               className="absolute bottom-6 right-6 text-black/40 hover:text-black/70 transition-colors cursor-pointer"
               onClick={() => setIsActive(false)}
             >
-              <EyeIcon />
+              {!isActive && <EyeIcon />}
             </button>
           </motion.div>
         )}
@@ -310,7 +310,9 @@ export default function Services() {
     return (
       <div id="services" className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-[36px] font-semibold text-black mb-4">SERVICES</h2>
+          <h2 className="text-[36px] font-semibold text-black mb-4">
+            SERVICES
+          </h2>
           <motion.div
             className="h-2 bg-black/30 mb-8"
             initial={{ scaleX: 0 }}
@@ -335,7 +337,9 @@ export default function Services() {
       <section className="section-panel services-section sticky top-0 h-screen bg-white overflow-hidden flex flex-col">
         {/* Section Title */}
         <div className="max-w-7xl mx-auto px-6 w-full pt-20 pb-8 flex-shrink-0">
-          <h2 className="text-[36px] font-semibold text-black mb-4">SERVICES</h2>
+          <h2 className="text-[36px] font-semibold text-black mb-4">
+            SERVICES
+          </h2>
           {/* <motion.div
             className="h-px bg-black/30"
             initial={{ scaleX: 0 }}

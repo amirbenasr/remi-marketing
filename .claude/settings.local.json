@@ -4,7 +4,9 @@
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
       "mcp__figma-remote-mcp__get_metadata",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(tail:*)",
+      "Bash(git diff:*)"
     ]
   }
 }

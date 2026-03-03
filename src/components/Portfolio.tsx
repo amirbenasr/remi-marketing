@@ -118,7 +118,7 @@ export default function Portfolio() {
     <div ref={containerRef}>
       <section
         id="portfolio"
-        className="section-panel portfolio-section bg-black py-12 "
+        className="section-panel min-h-screen portfolio-section bg-black py-12 "
       >
         <div className="max-w-7xl mx-auto px-6">
           {/* Section Title */}

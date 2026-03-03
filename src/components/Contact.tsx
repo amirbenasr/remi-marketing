@@ -30,16 +30,11 @@ function Bubble({
 }) {
   return (
     <motion.div
-      className="absolute -translate-y-1/2 hidden md:block pointer-events-none"
+      className=" bubble absolute top-0  hidden md:block pointer-events-none"
       animate={{ left: (hovered ? toCenter : fromCenter) - HALF }}
       transition={{ type: "spring", stiffness: 120, damping: 20 }}
     >
-      <Image
-        src="/images/testimonials/eclipse-round.png"
-        width={BUBBLE_SIZE}
-        height={BUBBLE_SIZE}
-        alt=""
-      />
+      <div className="bubble" />
     </motion.div>
   );
 }
@@ -53,7 +48,9 @@ export default function Contact() {
   // Measure the actual column width so bubble positions scale with the layout
   useEffect(() => {
     if (!colRef.current) return;
-    const ro = new ResizeObserver(([entry]) => setColW(entry.contentRect.width));
+    const ro = new ResizeObserver(([entry]) =>
+      setColW(entry.contentRect.width),
+    );
     ro.observe(colRef.current);
     return () => ro.disconnect();
   }, []);
@@ -107,19 +104,31 @@ export default function Contact() {
                 {/* PARLONS — bubble moves from S → P */}
                 <h2 className="relative text-4xl text-shadow-lg md:text-[86px] font-bold text-black leading-[142.8px]">
                   PARLONS
-                  <Bubble hovered={hovered} fromCenter={colW * bubbles[0].from} toCenter={colW * bubbles[0].to} />
+                  <Bubble
+                    hovered={hovered}
+                    fromCenter={colW * bubbles[0].from}
+                    toCenter={colW * bubbles[0].to}
+                  />
                 </h2>
 
                 {/* DE VOTRE — bubble moves from D → E */}
                 <h2 className="relative text-4xl text-shadow-lg md:text-[86px] font-bold text-gray-400 leading-[142.8px]">
                   DE VOTRE
-                  <Bubble hovered={hovered} fromCenter={colW * bubbles[1].from} toCenter={colW * bubbles[1].to} />
+                  <Bubble
+                    hovered={hovered}
+                    fromCenter={colW * bubbles[1].from}
+                    toCenter={colW * bubbles[1].to}
+                  />
                 </h2>
 
                 {/* PROJET — bubble moves from ET → P */}
                 <h2 className="relative text-4xl text-shadow-lg md:text-[86px] font-bold text-black leading-[142.8px]">
                   PROJET
-                  <Bubble hovered={hovered} fromCenter={colW * bubbles[2].from} toCenter={colW * bubbles[2].to} />
+                  <Bubble
+                    hovered={hovered}
+                    fromCenter={colW * bubbles[2].from}
+                    toCenter={colW * bubbles[2].to}
+                  />
                 </h2>
               </div>
 

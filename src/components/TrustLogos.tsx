@@ -11,7 +11,7 @@ const logos = [
 
 export default function TrustLogos() {
   return (
-    <section className="trust-section bg-black">
+    <section className=" trust-section bg-black">
       <div className="max-w-7xl mx-auto px-6">
         {/* Animated HR */}
         <motion.div

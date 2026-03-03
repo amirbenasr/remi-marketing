@@ -214,6 +214,50 @@ export const CroissanceOrganiqueIcon = ({
   </svg>
 );
 
+export const StudioVideoIcon = ({ className = "w-10 h-10" }: IconProps) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="1" y="5" width="15" height="14" rx="2" />
+    <polygon points="16 10 21 7 21 17 16 14" />
+  </svg>
+);
+
+export const ArchitectureMarqueIcon = ({ className = "w-10 h-10" }: IconProps) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2L20.5 7V17L12 22L3.5 17V7L12 2Z M9.5 9a2.5 2.5 0 0 1 5 0 a2.5 2.5 0 0 1 -5 0Z M7.5 18a4.5 4.5 0 0 0 9 0Z"
+    />
+  </svg>
+);
+
+export const StrategiePropulsionIcon = ({ className = "w-10 h-10" }: IconProps) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <line x1="4" y1="21" x2="4" y2="17" />
+    <line x1="9" y1="21" x2="9" y2="13" />
+    <line x1="14" y1="21" x2="14" y2="15" />
+    <line x1="19" y1="21" x2="19" y2="9" />
+    <line x1="12" y1="9" x2="20" y2="2" />
+    <polyline points="14 2 20 2 20 8" />
+  </svg>
+);
+
 // ── Testimonials ──
 
 export const StarIcon = ({

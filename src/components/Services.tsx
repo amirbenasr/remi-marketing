@@ -14,6 +14,9 @@ import {
   StudioCreatifIcon,
   CroissanceOrganiqueIcon,
   EyeIcon,
+  StrategiePropulsionIcon,
+  ArchitectureMarqueIcon,
+  StudioVideoIcon,
 } from "./icons";
 
 const services = [
@@ -154,6 +157,9 @@ const serviceIcons: Record<number, React.ReactNode> = {
   1: <PerformanceMediaIcon />,
   2: <StudioCreatifIcon />,
   3: <CroissanceOrganiqueIcon />,
+  4: <StrategiePropulsionIcon />,
+  5: <ArchitectureMarqueIcon />,
+  6: <StudioVideoIcon />,
 };
 
 function ServiceCard({

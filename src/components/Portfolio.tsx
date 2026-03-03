@@ -122,7 +122,7 @@ export default function Portfolio() {
       >
         <div className="max-w-7xl mx-auto px-6">
           {/* Section Title */}
-          <div className="text-right mb-16">
+          <div className="text-right mb-8">
             <p className="text-white font-semibold text-[32px] tracking-wider ">
               NOS
             </p>

@@ -56,7 +56,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="section-panel testimonials-section min-h-screen bg-black flex flex-col items-center justify-between py-16 md:py-20"
+      className="section-panel testimonials-section min-h-screen bg-black flex flex-col items-center justify-start py-16 md:py-20 gap-8"
     >
       {/* Speech bubble header */}
       <div className="flex justify-center">
@@ -64,10 +64,10 @@ export default function Testimonials() {
           {/* Speech bubble icon — behind the text */}
           <SpeechBubbleIcon className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[25%]" />
           <h2 className="text-center relative z-10 text-white mb-12 ml-18">
-            <span className="block text-[36px] font-semibold tracking-[0.2em]">
+            <span className="block text-[36px] font-semibold ">
               CE QUE DISENT
             </span>
-            <span className="block text-[36px] font-semibold tracking-[0.2em]">
+            <span className="block text-[36px] font-semibold ">
               NOS PARTENAIRES
             </span>
           </h2>
@@ -75,14 +75,14 @@ export default function Testimonials() {
       </div>
 
       {/* Testimonial content */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" >
         <motion.div
           key={current.id}
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -60 }}
           transition={{ duration: 0.35 }}
-          className="flex flex-col items-center text-center max-w-2xl px-6"
+          className="flex flex-col items-center  text-center max-w-2xl px-6 "
         >
           {/* Avatar */}
           <div className="w-24 h-24 rounded-full overflow-hidden mb-4 ring-2 ring-white/20">
@@ -96,10 +96,10 @@ export default function Testimonials() {
           </div>
 
           {/* Name & Company */}
-          <h3 className="text-white font-bold text-[20px] tracking-wide">
+          <h3 className="text-white font-bold text-[20px] ">
             {current.name}
           </h3>
-          <p className="text-white/50 text-[14px] mb-4 tracking-widest">
+          <p className="text-white/50 text-[14px] mb-4 ">
             {current.company}
           </p>
 
@@ -111,7 +111,7 @@ export default function Testimonials() {
           </div>
 
           {/* Quote */}
-          <p className="text-white/90 leading-relaxed text-[24px]">
+          <p className="text-white/90  text-[24px] h-[20ch] text-ellipsis overflow-hidden">
             &ldquo;{current.text}&rdquo;
           </p>
         </motion.div>
@@ -123,11 +123,10 @@ export default function Testimonials() {
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
-            className={`rounded-full transition-all duration-300 ${
-              index === currentIndex
-                ? "w-3 h-3 bg-white"
-                : "w-3 h-3 bg-transparent border border-white/40"
-            }`}
+            className={`rounded-full transition-all duration-300 ${index === currentIndex
+              ? "w-3 h-3 bg-white"
+              : "w-3 h-3 bg-transparent border border-white/40"
+              }`}
           />
         ))}
       </div>

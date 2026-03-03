@@ -85,10 +85,10 @@ export default function Contact() {
     <div
       ref={sectionRef}
       id="contact"
-      className="section-panel contact-section overflow-hidden bg-black"
+      className="section-panel contact-section  bg-black"
     >
       {/* Black spacer — visible while the page is still tilted */}
-      <div className="h-[30vh]" />
+      {/* <div className="h-[30vh]" /> */}
       <motion.div
         className="min-h-screen pt-24 md:pt-38 bg-white origin-bottom"
         style={{ rotate }}

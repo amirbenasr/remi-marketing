@@ -227,7 +227,9 @@ function ServiceCard({
   }
 
   return (
-    <div className="relative bg-[#1a1a1a] rounded-3xl p-8 min-h-[200px] md:min-h-[400px] flex flex-col overflow-hidden">
+    <div className="relative bg-[#1a1a1a] rounded-3xl p-8 min-h-[200px] md:min-h-[400px] flex flex-col overflow-hidden"
+      onMouseLeave={() => setIsActive(false)}
+    >
       {/* Default Content */}
       <div className="flex-1 flex flex-col items-center justify-center text-center">
         {serviceIcons[service.id] ? (

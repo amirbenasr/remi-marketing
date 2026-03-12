@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useMotionValueEvent, MotionValue } from "framer-motion";
 import Image from "next/image";
 import Footer from "./Footer";
 import { PhoneIcon, EmailIcon } from "./icons";
@@ -9,33 +9,109 @@ import { PhoneIcon, EmailIcon } from "./icons";
 const BUBBLE_SIZE = 250;
 const HALF = BUBBLE_SIZE / 2;
 
-/*
- * Letter-center positions expressed as a fraction of the column width.
- * Derived from tuned values at ~592px column: 410/592, 80/592, etc.
- */
 const bubbles = [
   { from: 0.693, to: 0.135 }, // PARLONS  — S → P
   { from: 0.135, to: 0.726 }, // DE VOTRE — D → E
   { from: 0.591, to: 0.135 }, // PROJET   — ET → P
 ];
 
+// Bubble exposes its animated center X via a MotionValue callback
 function Bubble({
   hovered,
   fromCenter,
   toCenter,
+  motionX,
 }: {
   hovered: boolean;
   fromCenter: number;
   toCenter: number;
+  motionX: MotionValue<number>;
 }) {
+  const targetLeft = (hovered ? toCenter : fromCenter) - HALF;
+
+  useEffect(() => {
+    // Sync initial value immediately (before spring settles)
+    motionX.set((hovered ? toCenter : fromCenter));
+  }, [hovered, toCenter, fromCenter, motionX]);
+
   return (
     <motion.div
-      className=" bubble absolute top-0  hidden md:block pointer-events-none"
-      animate={{ left: (hovered ? toCenter : fromCenter) - HALF }}
-      transition={{ type: "spring", stiffness: 120, damping: 20 }}
+      className=" absolute top-0 hidden md:block pointer-events-none"
+      animate={{ left: targetLeft }}
+      transition={{ type: "spring", stiffness: 40, damping: 20,duration:5 }}
+      onUpdate={(latest) => {
+        // left = center - HALF, so center = left + HALF
+        motionX.set((latest.left as number) + HALF);
+      }}
     >
       <div className="bubble" />
     </motion.div>
+  );
+}
+
+// Renders the text twice: base layer (no shadow) + shadow layer clipped to bubble
+function ShadowText({
+  text,
+  hovered,
+  fromCenter,
+  toCenter,
+  colW,
+  shadow,
+}: {
+  text: string;
+  hovered: boolean;
+  fromCenter: number;
+  toCenter: number;
+  colW: number;
+  shadow?: string;
+}) {
+  const motionX = useMotionValue((hovered ? toCenter : fromCenter));
+  // clipPath inset values in px — updated on every animation frame via MotionValue
+  const [clipLeft, setClipLeft] = useState(9999);
+  const [clipRight, setClipRight] = useState(9999);
+
+  useMotionValueEvent(motionX, "change", (centerX) => {
+    const left = centerX - HALF;
+    const right = centerX + HALF;
+    setClipLeft(Math.max(0, left));
+    setClipRight(Math.max(0, colW - right));
+  });
+
+  const textShadow = shadow ?? "black 3px 0px 1px";
+
+  const sharedClass =
+    " relative text-4xl md:text-[86px] font-bold text-black leading-[142.8px]";
+
+  return (
+    <div className="relative">
+      {/* Layer 1 — base text, no shadow */}
+        {/* Bubble lives here so it's positioned relative to this wrapper */}
+      <Bubble
+        hovered={hovered}
+        fromCenter={fromCenter}
+        toCenter={toCenter}
+        motionX={motionX}
+      />
+      <h2 className={sharedClass} style={{zIndex:50}}>{text}</h2>
+
+      {/* Layer 2 — shadowed text, clipped to bubble bounds */}
+      <h2
+        className={`${sharedClass} !absolute inset-0 pointer-events-none select-none z-60  `}
+        style={{
+          textShadow,
+          // clipPath inset: top right bottom left
+          transform:"skewX(20deg)",
+          opacity:"0.2",
+          scale:1.02,
+          clipPath: `inset(0px ${clipRight}px 0px ${clipLeft}px)`,
+        }}
+        aria-hidden
+      >
+        {text}
+      </h2>
+
+    
+    </div>
   );
 }
 
@@ -43,9 +119,8 @@ export default function Contact() {
   const [hovered, setHovered] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const colRef = useRef<HTMLDivElement>(null);
-  const [colW, setColW] = useState(0);
+  const [colW, setColW] = useState(592); // fallback to design reference width
 
-  // Measure the actual column width so bubble positions scale with the layout
   useEffect(() => {
     if (!colRef.current) return;
     const ro = new ResizeObserver(([entry]) =>
@@ -85,10 +160,8 @@ export default function Contact() {
     <div
       ref={sectionRef}
       id="contact"
-      className="section-panel contact-section  bg-transparent min-h-screen  pt-32"
+      className="section-panel contact-section bg-transparent min-h-screen"
     >
-      {/* Black spacer — visible while the page is still tilted */}
-      {/* <div className="h-[30vh]" /> */}
       <motion.div
         className="min-h-screen pt-24 md:pt-38 bg-white origin-bottom"
         style={{ rotate }}
@@ -101,35 +174,27 @@ export default function Contact() {
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
               >
-                {/* PARLONS — bubble moves from S → P */}
-                <h2 className="relative text-4xl text-shadow-lg md:text-[86px] font-bold text-black leading-[142.8px]">
-                  PARLONS
-                  <Bubble
-                    hovered={hovered}
-                    fromCenter={colW * bubbles[0].from}
-                    toCenter={colW * bubbles[0].to}
-                  />
-                </h2>
-
-                {/* DE VOTRE — bubble moves from D → E */}
-                <h2 className="relative text-4xl text-shadow-lg md:text-[86px] font-bold text-gray-400 leading-[142.8px]">
-                  DE VOTRE
-                  <Bubble
-                    hovered={hovered}
-                    fromCenter={colW * bubbles[1].from}
-                    toCenter={colW * bubbles[1].to}
-                  />
-                </h2>
-
-                {/* PROJET — bubble moves from ET → P */}
-                <h2 className="relative text-4xl text-shadow-lg md:text-[86px] font-bold text-black leading-[142.8px]">
-                  PROJET
-                  <Bubble
-                    hovered={hovered}
-                    fromCenter={colW * bubbles[2].from}
-                    toCenter={colW * bubbles[2].to}
-                  />
-                </h2>
+                <ShadowText
+                  text="PARLONS"
+                  hovered={hovered}
+                  fromCenter={colW * bubbles[0].from}
+                  toCenter={colW * bubbles[0].to}
+                  colW={colW}
+                />
+                <ShadowText
+                  text="DE VOTRE"
+                  hovered={hovered}
+                  fromCenter={colW * bubbles[1].from}
+                  toCenter={colW * bubbles[1].to}
+                  colW={colW}
+                />
+                <ShadowText
+                  text="PROJET"
+                  hovered={hovered}
+                  fromCenter={colW * bubbles[2].from}
+                  toCenter={colW * bubbles[2].to}
+                  colW={colW}
+                />
               </div>
 
               <div className="mt-12 space-y-4">
@@ -162,7 +227,6 @@ export default function Contact() {
                     className="w-full border-2 border-black bg-transparent p-2 text-black placeholder-gray-400 focus:outline-none focus:border-gray-600"
                   />
                 </div>
-
                 <div>
                   <input
                     type="text"
@@ -173,7 +237,6 @@ export default function Contact() {
                     className="w-full border-2 border-black bg-transparent p-2 text-black placeholder-gray-400 focus:outline-none focus:border-gray-600"
                   />
                 </div>
-
                 <div>
                   <input
                     type="email"
@@ -184,7 +247,6 @@ export default function Contact() {
                     className="w-full border-2 border-black bg-transparent p-2 text-black placeholder-gray-400 focus:outline-none focus:border-gray-600"
                   />
                 </div>
-
                 <div>
                   <input
                     type="tel"
@@ -195,7 +257,6 @@ export default function Contact() {
                     className="w-full border-2 border-black bg-transparent p-2 text-black placeholder-gray-400 focus:outline-none focus:border-gray-600"
                   />
                 </div>
-
                 <div>
                   <textarea
                     name="message"
@@ -206,7 +267,6 @@ export default function Contact() {
                     className="w-full border-2 border-black bg-transparent p-3 text-black placeholder-gray-400 focus:outline-none focus:border-gray-600 resize-none"
                   />
                 </div>
-
                 <motion.button
                   type="submit"
                   className="bg-black text-white px-8 py-3 font-medium hover:bg-white hover:text-black border-2 border-black transition-colors float-right"

@@ -38,9 +38,9 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="text-center text-gray-500 text-[20px] font-semibold">
+        <div className="text-center text-black text-[20px] font-semibold">
           <p>
-            &copy; 2023 REMY Coaching et Marketing |{" "}
+            &copy; 2026 REMY Coaching et Marketing |{" "}
             <Link
               href="/politique"
               className="hover:text-black transition-colors"

@@ -27,7 +27,7 @@ export default function Hero() {
       <div className="relative z-10 flex flex-col items-center text-center px-6">
         {/* Headline — animates in first */}
         <motion.h1
-          className="text-white font-bold text-5xl md:text-6xl lg:text-5xl leading-tight tracking-wide mb-10"
+          className="text-white text-left font-bold text-5xl md:text-6xl lg:text-5xl leading-tight tracking-wide mb-10"
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
@@ -42,10 +42,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 1.0 }}
+          className=""
         >
           <Link
             href="#contact"
-            className="bg-white rounded-lg text-black px-4 py-2 text-base font-black tracking-wide hover:bg-gray-100 transition-colors"
+            className="bg-white rounded-lg hover:blur-[1px] text-black px-4 py-2 text-base font-black tracking-wide hover:bg-black hover:text-white hover:outline hover:outline-white transition-colors"
           >
             Parlons de votre projet
           </Link>

@@ -61,7 +61,7 @@ function PortfolioItem({ item }: PortfolioItemProps) {
 
   return (
     <motion.div
-      className="relative aspect-[3/2] bg-gray-800 rounded-lg overflow-hidden cursor-pointer group"
+      className="relative h-full w-full object-cover bg-gray-800 rounded-lg overflow-hidden cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       whileHover={isMobile ? undefined : { scale: 1.02 }}
@@ -73,7 +73,6 @@ function PortfolioItem({ item }: PortfolioItemProps) {
           src={item.staticImage}
           alt={item.name}
           fill
-          className="object-cover"
         />
       </div>
 
@@ -115,14 +114,14 @@ export default function Portfolio() {
   const rightX = useTransform(scrollYProgress, [0, 1], ["60%", "0%"]);
 
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} className="border-white">
       <section
         id="portfolio"
-        className="section-panel min-h-screen portfolio-section bg-black py-12 "
+        className="section-panel   flex flex-col  h-screen portfolio-section bg-black py-12 "
       >
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 h-[80%] w-full  ">
           {/* Section Title */}
-          <div className="text-right mb-8">
+          <div className="text-right mb-4">
             <p className="text-white font-semibold text-[32px] tracking-wider ">
               NOS
             </p>
@@ -132,7 +131,7 @@ export default function Portfolio() {
           </div>
 
           {/* Portfolio Grid */}
-          <div className="w-[80%] grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mx-auto">
+          <div className=" grid  h-[70%] w-full  grid-cols-2  md:grid-cols-3 grid-rows-2 gap-4 md:gap-6 mx-auto">
             {portfolioItems.map((item, index) => (
               <motion.div
                 key={item.id}

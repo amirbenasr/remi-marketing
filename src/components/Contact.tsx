@@ -36,9 +36,9 @@ function Bubble({
 
   return (
     <motion.div
-      className=" absolute top-0 hidden md:block pointer-events-none"
+      className="absolute top-1/2 -translate-y-1/2 hidden md:block pointer-events-none"
       animate={{ left: targetLeft }}
-      transition={{ type: "spring", stiffness: 40, damping: 20,duration:5 }}
+      transition={{ type: "spring", stiffness: 40, damping: 20, duration: 5 }}
       onUpdate={(latest) => {
         // left = center - HALF, so center = left + HALF
         motionX.set((latest.left as number) + HALF);
@@ -85,14 +85,14 @@ function ShadowText({
   return (
     <div className="relative">
       {/* Layer 1 — base text, no shadow */}
-        {/* Bubble lives here so it's positioned relative to this wrapper */}
+      {/* Bubble lives here so it's positioned relative to this wrapper */}
       <Bubble
         hovered={hovered}
         fromCenter={fromCenter}
         toCenter={toCenter}
         motionX={motionX}
       />
-      <h2 className={sharedClass} style={{zIndex:50}}>{text}</h2>
+      <h2 className={sharedClass} style={{ zIndex: 50 }}>{text}</h2>
 
       {/* Layer 2 — shadowed text, clipped to bubble bounds */}
       <h2
@@ -100,9 +100,9 @@ function ShadowText({
         style={{
           textShadow,
           // clipPath inset: top right bottom left
-          transform:"skewX(20deg)",
-          opacity:"0.2",
-          scale:1.02,
+          transform: "skewX(20deg)",
+          opacity: "0.2",
+          scale: 1.02,
           clipPath: `inset(0px ${clipRight}px 0px ${clipLeft}px)`,
         }}
         aria-hidden
@@ -110,7 +110,7 @@ function ShadowText({
         {text}
       </h2>
 
-    
+
     </div>
   );
 }

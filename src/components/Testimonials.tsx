@@ -38,6 +38,22 @@ const testimonials = [
     rating: 5,
     text: `Grâce à l'équipe de REMY, j'ai pu me démarquer dans un marché compétitif. Leur approche personnalisée et leur attention aux détails font toute la différence.`,
   },
+  {
+    id: 5,
+    name: "CINDY BUSSIÈRES",
+    company: "SUTTON SYNERGIE",
+    image: "/images/testimonials/cindy_bussieres.png",
+    rating: 5,
+    text: `Travailler avec Ced est un vrai privilège! Son énergie est contagieuse, ses idées sont toujours pertinentes et ses fameux « coups de pied au derrière » sont exactement ce qu’il me faut pour avancer et me dépasser. Il a un don pour motiver, structurer et amener les choses plus loin. Chaque rencontre est un plaisir et un boost de productivité. Je recommande à 100%!`,
+  },
+  {
+    id: 6,
+    name: "ALEXANDRE DUBÉ",
+    company: "COACH",
+    image: "/images/testimonials/alexandre_dube.png",
+    rating: 5,
+    text: `Quel plaisir de travailler avec Remy marketing ! Avec son approche humaine, Ced et son équipe ont su bien m'écouter et me suggérer afin que le produit final puisse bien me représenter. J'ai fait affaire avec Ced pour 2 mandats différents et n'hésiterai pas pour en faire un autre avec son équipe. Ils sont professionnels dans leur démarche. Maintenant, j'ai hâte de faire rayonner ma marque sur les réseaux sociaux afin de pouvoir proposer mon offre à mon public cible. Ce n'est qu'un début d'une belle relation d'affaire. Merci`,
+  },
 ];
 
 export default function Testimonials() {
@@ -76,10 +92,10 @@ export default function Testimonials() {
 
           <div className="relative inline-flex items-center justify-center">
             {/* Speech bubble icon — behind the text */}
-            <motion.div style={{x:leftX}} >
-            <SpeechBubbleIcon className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[25%]"  />
+            <motion.div style={{ x: leftX }} >
+              <SpeechBubbleIcon className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[25%]" />
             </motion.div>
-            <motion.h2 className="text-center relative z-10 text-white mb-12 ml-18" style={{x:rightX}}>
+            <motion.h2 className="text-center relative z-10 text-white mb-12 ml-18" style={{ x: rightX }}>
               <span className="block text-[36px] font-semibold ">
                 CE QUE DISENT
               </span>
@@ -130,7 +146,7 @@ export default function Testimonials() {
             </div>
 
             {/* Quote */}
-            <p className="text-white/90  text-[24px] h-[20ch] text-ellipsis overflow-hidden">
+            <p className="text-white/90 text-[20px] md:text-[24px] min-h-64 md:min-h-80 flex items-center justify-center">
               &ldquo;{current.text}&rdquo;
             </p>
           </motion.div>

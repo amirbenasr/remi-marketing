@@ -7,11 +7,12 @@ const logos = [
   { id: 3, name: "Alexandre Usereau", image: "/images/logos/usereau.png" },
   { id: 4, name: "Alexandre Gagné", image: "/images/logos/gagne.png" },
   { id: 5, name: "Via Capitale", image: "/images/logos/viacapitale.png" },
+  { id: 6, name: "Excellence", image: "/images/logos/excellence.png" },
 ];
 
 export default function TrustLogos() {
   return (
-    <section className=" trust-section bg-black">
+    <section className=" trust-section bg-black h-[20%]">
       <div className="max-w-7xl mx-auto px-6">
         {/* Animated HR */}
         <motion.div
@@ -22,13 +23,6 @@ export default function TrustLogos() {
           style={{ originX: 0.5 }}
           viewport={{ once: true, amount: 0.5 }}
         />
-        {/* Section Title */}
-        <div className="text-center">
-          <p className="text-white font-semibold text-[24px]">ILS NOUS FONT</p>
-          <h2 className="text-[32px] font-semibold tracking-wider text-white">
-            CONFIANCE
-          </h2>
-        </div>
 
         {/* Logos Marquee */}
         <div className="overflow-hidden ">

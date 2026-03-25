@@ -19,7 +19,17 @@ import {
   StudioVideoIcon,
 } from "./icons";
 
-const services = [
+interface Service {
+  id: number;
+  title: string;
+  details: {
+    title: string;
+    subtitle?: string;
+    description: string;
+  }[];
+}
+
+const services: Service[] = [
   {
     id: 1,
     title: "PERFORMANCE\nMÉDIA",
@@ -85,73 +95,77 @@ const services = [
   },
 ];
 
-const newServices = [
+const newServices: Service[] = [
   {
-    id: 4,
-    title: "SEO &\nRÉFÉRENCEMENT\nNATUREL",
+    id: 6,
+    title: "STUDIO\nVIDÉO\nREMY",
     details: [
       {
-        title: "Audit SEO Complet",
+        title: "VIDÉO PRÉSENTATION ENTREPRISE\n(1-2 min)",
         description:
-          "Analyse approfondie de votre site pour identifier toutes les opportunités d'optimisation.",
+          "Tournage, direction, montage, habillage visuel, musique et sous-titres.",
       },
       {
-        title: "Stratégie de Mots-Clés",
-        description:
-          "Ciblage précis des requêtes à fort potentiel de trafic qualifié pour votre secteur.",
+        title: "CAPTATION VIDÉO\n(1h, sans montage)",
+        description: "Pour événements, témoignages ou prises de contenu brut.",
       },
       {
-        title: "Netlinking Éditorial",
+        title: "MONTAGE À LA CARTE\n(10h)",
+        description: "Vidéos sociales, reels, shorts ou montage d'événement.",
+      },
+      {
+        title: "FORFAIT CONTENU RÉCURRENT\n(2 vidéos/mois)",
         description:
-          "Construction d'un profil de liens naturels pour renforcer votre autorité de domaine.",
+          "Création de contenu mensuel pour YouTube, Instagram, Facebook.",
       },
     ],
   },
   {
     id: 5,
-    title: "EMAIL\nMARKETING\n& CRM",
+    title: "ARCHITECTURE\nDE MARQUE",
     details: [
       {
-        title: "Séquences Automatisées",
+        title: "DÉMARRAGE",
+        subtitle: "Logo, palette, typographie",
         description:
-          "Scénarios d'emailing intelligents pour convertir et fidéliser vos prospects automatiquement.",
+          "Création d'une base visuelle professionnelle, prête à l'emploi.",
       },
       {
-        title: "Newsletter Créative",
+        title: "IDENTITÉ",
+        subtitle: "Brandbook, templates visuels",
         description:
-          "Des newsletters qui se lisent vraiment, conçues pour maximiser l'engagement.",
+          "Cohérence graphique et guide d'utilisation de marque sur tous vos canaux.",
       },
       {
-        title: "Segmentation Avancée",
+        title: "POSITIONNEMENT STRATÉGIQUE",
+        subtitle: "Analyse, persona, mission/vision",
         description:
-          "Personnalisez vos messages selon le comportement et le profil de chaque segment.",
+          "Une marque ancrée dans un positionnement clair, compétitif et durable.",
       },
     ],
   },
   {
-    id: 6,
-    title: "ANALYTICS\n& DATA\nSTRATÉGIE",
+    id: 4,
+    title: "STRATÉGIE &\nPROPULSION",
     details: [
       {
-        title: "Tableaux de Bord",
+        title: "CONSULTATION MARKETING/BRANDING\n(1h)",
         description:
-          "Visualisez vos KPIs clés en temps réel pour des décisions marketing éclairées.",
+          "Pour débloquer une problématique ou valider une stratégie avec un expert.",
       },
       {
-        title: "Tracking & Attribution",
+        title: "COORDINATION MÉDIAS TRADITIONNELS\n(télé, radio, journaux) forfait sur mesure",
         description:
-          "Comprenez précisément quels canaux et actions génèrent votre croissance.",
+          "Planification, négociation, placement et suivi de performance inclus.",
       },
       {
-        title: "Reporting Mensuel",
+        title: "CRÉATION ET HÉBERGEMENT SITE WEB",
         description:
-          "Des rapports clairs et actionnables pour piloter et affiner votre stratégie.",
+          "Site WordPress optimisé, mobile friendly, rédaction SEO et intégration visuelle.",
       },
     ],
   },
 ];
-
-type Service = (typeof services)[0];
 
 const serviceIcons: Record<number, React.ReactNode> = {
   1: <PerformanceMediaIcon />,
@@ -204,13 +218,18 @@ function ServiceCard({
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="flex flex-col h-full justify-center divide-y divide-black/10">
+              <div className="flex flex-col h-full w-full justify-start overflow-y-auto no-scrollbar divide-y divide-black/10 pb-6">
                 {service.details.map((detail, i) => (
-                  <div key={i} className="py-3 first:pt-0 last:pb-0">
-                    <p className="text-[#1F201F] font-semibold text-xs mb-1">
+                  <div key={i} className="py-3 first:pt-2 last:pb-0">
+                    <p className="text-[#1F201F] font-bold text-xs mb-0.5 whitespace-pre-line leading-tight">
                       {detail.title}
                     </p>
-                    <p className="text-[#8C8C8C] text-xs leading-relaxed">
+                    {detail.subtitle && (
+                      <p className="text-[#1F201F] font-semibold text-[10px] mb-0.5 leading-tight">
+                        {detail.subtitle}
+                      </p>
+                    )}
+                    <p className="text-[#8C8C8C] font-medium text-[11px] leading-snug whitespace-pre-line mt-1">
                       {detail.description}
                     </p>
                   </div>
@@ -256,26 +275,31 @@ function ServiceCard({
       <AnimatePresence>
         {isActive && (
           <motion.div
-            className="absolute inset-0 bg-white rounded-3xl p-8 flex flex-col justify-center items-center text-center"
+            className="absolute inset-0 bg-white rounded-3xl p-6 md:p-8 flex flex-col items-center text-center overflow-hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="flex flex-col h-full justify-center divide-y divide-black/10">
+            <div className="flex flex-col h-full w-full justify-start overflow-y-auto no-scrollbar divide-y divide-black/10 pb-8">
               {service.details.map((detail, i) => (
-                <div key={i} className="py-5 first:pt-0 last:pb-0">
-                  <p className="text-[#1F201F] font-semibold text-[24px] mb-1">
+                <div key={i} className="py-4 first:pt-4 last:pb-0">
+                  <p className="text-[#1F201F] font-bold text-[16px] md:text-[17px] mb-1 whitespace-pre-line leading-tight">
                     {detail.title}
                   </p>
-                  <p className="text-[#8C8C8C] font-semibold text-[16px] leading-relaxed">
+                  {detail.subtitle && (
+                    <p className="text-[#1F201F] font-semibold text-[13px] md:text-[14px] mb-1 whitespace-pre-line leading-tight">
+                      {detail.subtitle}
+                    </p>
+                  )}
+                  <p className="text-[#8C8C8C] font-medium text-[13px] md:text-[14px] leading-relaxed whitespace-pre-line mt-1">
                     {detail.description}
                   </p>
                 </div>
               ))}
             </div>
             <button
-              className="absolute bottom-6 right-6 text-black/40 hover:text-black/70 transition-colors cursor-pointer"
+              className="absolute bottom-6 right-6 text-black/40 hover:text-black/70 transition-colors cursor-pointer bg-white rounded-full p-1 shadow-[0_0_10px_rgba(255,255,255,1)]"
               onClick={() => setIsActive(false)}
             >
               {!isActive && <EyeIcon />}

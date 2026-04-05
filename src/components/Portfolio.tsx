@@ -61,7 +61,7 @@ function PortfolioItem({ item }: PortfolioItemProps) {
 
   return (
     <motion.div
-      className="relative h-full w-full object-cover bg-gray-800 rounded-lg overflow-hidden cursor-pointer group"
+      className="relative h-full w-full  bg-gray-800 rounded-lg overflow-hidden cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       whileHover={isMobile ? undefined : { scale: 1.02 }}
@@ -73,6 +73,7 @@ function PortfolioItem({ item }: PortfolioItemProps) {
           src={item.staticImage}
           alt={item.name}
           fill
+          className="object-fill"
         />
       </div>
 

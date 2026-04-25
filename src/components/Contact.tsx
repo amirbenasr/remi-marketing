@@ -1,12 +1,17 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useMotionValueEvent, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate, MotionValue } from "framer-motion";
 import Image from "next/image";
 import Footer from "./Footer";
 import { PhoneIcon, EmailIcon } from "./icons";
 
-const BUBBLE_SIZE = 250;
+// Line-height of the heading rows — bubble must not bleed past this.
+const LINE_HEIGHT = 142.8;
+// Sphere diameter ≈ 55% of the PNG render size.
+// At 270px: sphere ≈ 148px wide, center-X ≈ 75px from left edge → matches HALF exactly.
+const BUBBLE_IMG_SIZE = 270;
+const BUBBLE_SIZE = 150;
 const HALF = BUBBLE_SIZE / 2;
 
 const bubbles = [
@@ -36,81 +41,84 @@ function Bubble({
 
   return (
     <motion.div
-      className="absolute top-1/2 -translate-y-1/2 hidden md:block pointer-events-none"
+      className="absolute hidden md:block pointer-events-none z-[5]"
+      style={{
+        top: 0,
+        height: LINE_HEIGHT,
+      }}
       animate={{ left: targetLeft }}
       transition={{ type: "spring", stiffness: 40, damping: 20, duration: 5 }}
       onUpdate={(latest) => {
-        // left = center - HALF, so center = left + HALF
         motionX.set((latest.left as number) + HALF);
       }}
     >
-      <div className="bubble" />
+      <Image
+        src="/images/bubble.png"
+        width={BUBBLE_IMG_SIZE}
+        height={BUBBLE_IMG_SIZE}
+        alt=""
+        style={{ display: "block" }}
+        priority={false}
+      />
     </motion.div>
   );
 }
 
-// Renders the text twice: base layer (no shadow) + shadow layer clipped to bubble
+// Bubble acts as a "mirror": a larger, rotated copy of the text sits behind
+// it and is revealed only through a circular radial mask centered on the bubble.
+const MASK_INNER = 30;  // px — fully opaque radius
+const MASK_OUTER = 90;  // px — fade-to-transparent radius
+const BUBBLE_CENTER_Y = LINE_HEIGHT / 2;
+
 function ShadowText({
   text,
   hovered,
   fromCenter,
   toCenter,
-  colW,
-  shadow,
 }: {
   text: string;
   hovered: boolean;
   fromCenter: number;
   toCenter: number;
-  colW: number;
-  shadow?: string;
 }) {
   const motionX = useMotionValue((hovered ? toCenter : fromCenter));
-  // clipPath inset values in px — updated on every animation frame via MotionValue
-  const [clipLeft, setClipLeft] = useState(9999);
-  const [clipRight, setClipRight] = useState(9999);
 
-  useMotionValueEvent(motionX, "change", (centerX) => {
-    const left = centerX - HALF;
-    const right = centerX + HALF;
-    setClipLeft(Math.max(0, left));
-    setClipRight(Math.max(0, colW - right));
-  });
-
-  const textShadow = shadow ?? "black 3px 0px 1px";
+  // Radial mask follows the bubble center every frame — no React re-render.
+  const maskImage = useMotionTemplate`radial-gradient(circle at ${motionX}px ${BUBBLE_CENTER_Y}px, black 0px, black ${MASK_INNER}px, transparent ${MASK_OUTER}px)`;
 
   const sharedClass =
-    " relative text-4xl md:text-[86px] font-bold text-black leading-[142.8px]";
+    "text-4xl md:text-[86px] font-bold text-black leading-[142.8px]";
 
   return (
     <div className="relative">
-      {/* Layer 1 — base text, no shadow */}
-      {/* Bubble lives here so it's positioned relative to this wrapper */}
+      {/* Layer 1 — "reflected" text: larger, rotated, soft-shadowed.
+          Revealed only inside the bubble via a radial mask so the edges fade
+          naturally with the sphere instead of being clipped by a straight line. */}
+      <motion.h2
+        className={`${sharedClass} absolute inset-0 pointer-events-none select-none z-[1]`}
+        aria-hidden
+        style={{
+          transform: "translate(-3px, -6px) scale(1.00)",
+          transformOrigin: "center center",
+          filter: "url(#bubble-warp) blur(0.8px)",
+          opacity: 0.35,
+          maskImage,
+          WebkitMaskImage: maskImage,
+        }}
+      >
+        {text}
+      </motion.h2>
+
+      {/* Layer 2 — bubble PNG sits between the reflected text and the crisp text */}
       <Bubble
         hovered={hovered}
         fromCenter={fromCenter}
         toCenter={toCenter}
         motionX={motionX}
       />
-      <h2 className={sharedClass} style={{ zIndex: 50 }}>{text}</h2>
 
-      {/* Layer 2 — shadowed text, clipped to bubble bounds */}
-      <h2
-        className={`${sharedClass} !absolute inset-0 pointer-events-none select-none z-60  `}
-        style={{
-          textShadow,
-          // clipPath inset: top right bottom left
-          transform: "skewX(20deg)",
-          opacity: "0.2",
-          scale: 1.02,
-          clipPath: `inset(0px ${clipRight}px 0px ${clipLeft}px)`,
-        }}
-        aria-hidden
-      >
-        {text}
-      </h2>
-
-
+      {/* Layer 3 — crisp foreground text */}
+      <h2 className={`${sharedClass} relative z-[10]`}>{text}</h2>
     </div>
   );
 }
@@ -162,6 +170,30 @@ export default function Contact() {
       id="contact"
       className="section-panel contact-section bg-transparent min-h-screen"
     >
+      {/* Refraction filter — turbulence-driven displacement map.
+          Warps the masked shadow text inside the bubble so it reads as glass-bent
+          letters rather than a flat duplicate. baseFrequency controls wave size,
+          scale controls warp intensity. */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>
+        <defs>
+          <filter id="bubble-warp" x="-20%" y="-20%" width="140%" height="140%">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.012"
+              numOctaves="2"
+              seed="4"
+              result="noise"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="noise"
+              scale="22"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
       <motion.div
         className="min-h-screen pt-24 md:pt-38 bg-white origin-bottom"
         style={{ rotate }}
@@ -179,21 +211,18 @@ export default function Contact() {
                   hovered={hovered}
                   fromCenter={colW * bubbles[0].from}
                   toCenter={colW * bubbles[0].to}
-                  colW={colW}
                 />
                 <ShadowText
                   text="DE VOTRE"
                   hovered={hovered}
                   fromCenter={colW * bubbles[1].from}
                   toCenter={colW * bubbles[1].to}
-                  colW={colW}
                 />
                 <ShadowText
                   text="PROJET"
                   hovered={hovered}
                   fromCenter={colW * bubbles[2].from}
                   toCenter={colW * bubbles[2].to}
-                  colW={colW}
                 />
               </div>
 

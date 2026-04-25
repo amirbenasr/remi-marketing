@@ -115,12 +115,12 @@ export default function Portfolio() {
   const rightX = useTransform(scrollYProgress, [0, 1], ["60%", "0%"]);
 
   return (
-    <div ref={containerRef} className="border-white">
+    <div ref={containerRef} className="">
       <section
         id="portfolio"
         className="section-panel   flex flex-col  h-screen portfolio-section bg-black py-12 "
       >
-        <div className="max-w-7xl mx-auto px-6 h-[80%] w-full  ">
+        <div className="max-w-7xl mx-auto px-6 h-[80%] w-full   ">
           {/* Section Title */}
           <div className="text-right mb-4">
             <p className="text-white font-semibold text-[32px] tracking-wider ">

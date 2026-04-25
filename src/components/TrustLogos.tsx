@@ -16,7 +16,7 @@ export default function TrustLogos() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Animated HR */}
         <motion.div
-          className="h-[2px] bg-white my-3"
+          className="h-[2px] bg-white mb-8"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -25,7 +25,7 @@ export default function TrustLogos() {
         />
 
         {/* Logos Marquee */}
-        <div className="overflow-hidden ">
+        <div className="overflow-hidden   ">
           <div className="flex  animate-marquee items-center my-auto">
             {[logos, logos, logos, logos].flat().map((logo, i) => (
               <Image

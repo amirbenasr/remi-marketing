@@ -32,7 +32,7 @@ function Bubble({
   toCenter: number;
   motionX: MotionValue<number>;
 }) {
-  const targetLeft = (hovered ? toCenter : fromCenter) - HALF;
+  const targetLeft = (hovered ? toCenter : fromCenter) - HALF -50 ;
 
   useEffect(() => {
     // Sync initial value immediately (before spring settles)

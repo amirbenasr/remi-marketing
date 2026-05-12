@@ -10,14 +10,13 @@ const founders = [
   {
     name: "CED REMY",
     description:
-      "Fondateur de l'agence REMY, est un stratège passionné par le marketing et la création de marques fortes. Fort d'un parcours entre politique, médias et entrepreneuriat, il accompagne entreprises et créateurs dans le développement d'une communication authentique, percutante et humaine.",
+      `Propriétaire de REMY.marketing depuis 2018 et consultant en marketing immobilier, Cedrick Remy cumule un fort bagage d’expérience en politique, communications et ventes. Son parcours professionnel a pris son envol dans la jeune vingtaine alors qu’il a agis comme attaché politique à l’Assemblée nationale du Québec auprès du député provincial de Blainville, Mario Laframboise.\n\nDurant les mêmes années, il a animé et produit différentes émissions de télé et podcasts sur la chaîne MaTV Laval ainsi que plusieurs plateformes web. Il a ensuite approfondi son parcours dans les médias comme promoteur et créateur de contenu à la radio sur les ondes de 105,7 Rythme FM ou il a collaboré avec plusieurs personnalités telles que Patrice Bélanger, Etienne Boulay, Marianne St-Gelais et plusieurs autres. Troisième génération dans les médias (après Edward Remy et Erick Remy), Ced se consacre aujourd’hui avec son équipe à faire rayonner les entreprises, professionnels et courtiers immobiliers grâce à une approche créative, humaine et professionnelle. `,
     image: "/images/about/CED.png",
     gif: "/images/about/CED.gif",
   },
   {
     name: "HOURIA",
-    description:
-      "HOURIA Créative et passionnée, Houria donne vie aux marques à travers des visuels percutants et élégants. Son sens du détail et de l’esthétique fait de chaque projet une œuvre unique.",
+    description:`Designer graphique chez REMY.marketing, Houria met son talent créatif et sa rigueur au service de l’image de marque de nos clients depuis maintenant plus d’un an. Au fil des années, elle a développé une solide expérience en création de visuels publicitaires, en montage, en traitement d’images ainsi qu’en coordination avec différents intervenants de production.\n\nSon cheminement professionnel, autant en Tunisie qu’au Canada, lui a permis de bâtir une expertise à la fois technique, artistique et orientée vers le service à la clientèle. Formée en arts graphiques et en infographie, Houria est reconnue pour son souci du détail, sa minutie et sa capacité d’adaptation aux nouveaux outils et aux réalités changeantes du milieu créatif. Curieuse, ambitieuse et débrouillarde, elle contribue chaque jour à faire rayonner les projets de l’entreprise avec professionnalisme et sensibilité visuelle.  `,
     image: "/images/about/HOURIA.png",
     gif: "/images/about/HOURIA.gif",
   },
@@ -70,11 +69,11 @@ function FounderCard({
 
         {/* Text */}
         <div className="flex flex-col justify-center">
-          <div className="mb-8 flex justify-end">
+          <div className="mb-2 flex justify-end">
             <ChevronDownIcon className="w-12 h-12 text-white" />
           </div>
           <h3 className="text-[32px] font-semibold mb-6 text-white">{founder.name}</h3>
-          <p className="text-[20px] font-semibold leading-relaxed text-[#E6E6E6]">{founder.description}</p>
+          <p className="text-[20px] font-semibold leading-relaxed text-[#E6E6E6] whitespace-pre-line">{founder.description}</p>
         </div>
       </div>
     </div>
@@ -158,7 +157,7 @@ export default function About() {
               <h3 className="text-[32px] font-semibold mb-3 text-white">
                 {founder.name}
               </h3>
-              <p className="text-[20px] font-semibold leading-relaxed text-[#E6E6E6]">
+              <p className="text-[20px] font-semibold leading-relaxed text-[#E6E6E6] whitespace-pre-line">
                 {founder.description}
               </p>
             </div>
@@ -173,7 +172,7 @@ export default function About() {
     <div id="about" ref={containerRef} style={{ height: "300vh" }}>
       <section className="section-panel about-section sticky top-0 h-screen bg-black text-white flex flex-col overflow-hidden">
         {/* Header — always visible */}
-        <div className="px-6 pt-20 pb-8 max-w-7xl w-full mx-auto flex-shrink-0">
+        <div className="px-6 pt-8 pb-8 max-w-7xl w-full mx-auto flex-shrink-0">
           <h2 className="text-[36px] font-semibold mb-4 text-white">À PROPOS</h2>
           <motion.div
             className="h-[2px] bg-white"

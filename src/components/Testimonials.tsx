@@ -2,7 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { SpeechBubbleIcon, StarIcon } from "./icons";
 
 const testimonials = [
@@ -12,32 +17,37 @@ const testimonials = [
     company: "RE/MAX ÉLITE",
     image: "/images/testimonials/brouillard.png",
     rating: 5,
-    text: `Avec Ced et toute son équipe, ce fut un « fit » a été parfait dès le jour 1 ! J'ai eu affaire à un professionnel aguerri sur les médias sociaux qui met en avant plan ses connaissances pour maximiser mes performances selon mes objectifs et budgets établis. L'équipe de Remy Médias m'a permis de passer au prochain niveau dans ma carrière de courtier tout en étant très disponible, soucieux du détail et des plus sympathiques !`,
+    text: `Avec Ced et toute son équipe, ce fut un « fit » a été parfait dès le jour 1 !
+J'ai eu affaire à un professionnel aguerri sur les médias sociaux qui met en avant plan ses connaissances pour maximiser mes performances selon mes objectifs et budgets établis.
+L'équipe de Remy Médias m'a permis de passer au prochain niveau dans ma carrière de courtier tout en étant très disponible, soucieux du détail et des plus sympathiques !
+Pour un service marketing haut de gamme qui répond aux standards les plus élevés du marché, c'est Remy Marketing ! `,
   },
   {
     id: 2,
-    name: "ALEXANDRE USEREAU",
-    company: "COURTIER IMMOBILIER",
+    name: "GABRIEL LALANCETTE",
+    company: "REAL ESTATE PLAYA",
     image: "/images/testimonials/usereau.png",
     rating: 5,
-    text: `Une équipe exceptionnelle qui comprend vraiment les besoins des professionnels de l'immobilier. Leur expertise en marketing digital a transformé ma présence en ligne et généré des résultats concrets.`,
-  },
-  {
-    id: 3,
-    name: "CAROLINE BOUCHER",
-    company: "COURTIER IMMOBILIER",
-    image: "/images/testimonials/boucher.png",
-    rating: 5,
-    text: `Professionnalisme, créativité et résultats. REMY Marketing a su créer une image de marque qui me représente parfaitement et qui attire les bons clients.`,
+    text: `Ced se démarque dans le marché du marketing et branding immobilier par ses connaissances poussée, ses années d’expérience et ses stratégies qui évoluent avec les nouvelles technologies.
+Si vous recherchez quelqu’un de passionné et dédié qui amène des résultats, ne cherchez pas plus loin. Je recommande fortement !`,
   },
   {
     id: 4,
-    name: "MAXIME JOYAL",
-    company: "COURTIER IMMOBILIER",
+    name: "LYNE OUELLETTE",
+    company: "VIA CAPITALE PARTENAIRES",
     image: "/images/testimonials/joyal.png",
     rating: 5,
-    text: `Grâce à l'équipe de REMY, j'ai pu me démarquer dans un marché compétitif. Leur approche personnalisée et leur attention aux détails font toute la différence.`,
+    text: `WOW et REWOW, la chimie s'est installée dès les premières minutes. Une écoute attentive, une approche stimulante et proactive le tout en toute simplicité. J'adore !`,
   },
+  {
+    id: 3,
+    name: "MÉLISSA MERCIER",
+    company: "VIA CAPITALE PARTENAIRES",
+    image: "/images/testimonials/boucher.png",
+    rating: 5,
+    text: `Équipe professionnel et offre des idées/concepts exceptionnels. Une rencontre et vous serez charmez mais surtout vous vous sentirez en confiance !`,
+  },
+  
   {
     id: 5,
     name: "CINDY BUSSIÈRES",
@@ -63,11 +73,10 @@ export default function Testimonials() {
   const { scrollYProgress, scrollY } = useScroll({
     target: sectionRef,
     offset: ["start end", "start 0.15"],
+  });
 
-  })
-
-  const leftX = useTransform(scrollYProgress, [0, 1], ["-1000px", "0px"])
-  const rightX = useTransform(scrollYProgress, [0, 1], ["1000px", "0px"])
+  const leftX = useTransform(scrollYProgress, [0, 1], ["-1000px", "0px"]);
+  const rightX = useTransform(scrollYProgress, [0, 1], ["1000px", "0px"]);
 
   // // Auto-play — resets timer on manual navigation
   useEffect(() => {
@@ -77,25 +86,24 @@ export default function Testimonials() {
     return () => clearInterval(timer);
   }, [currentIndex]);
 
-
-
   const current = testimonials[currentIndex];
 
   return (
-    <div ref={sectionRef} >
-
+    <div ref={sectionRef}>
       <section
         id="testimonials"
         className="section-panel testimonials-section min-h-screen  bg-black flex flex-col items-center justify-start py-16 md:py-20 gap-8"
       >
-        <div className="flex justify-center" >
-
+        <div className="flex justify-center">
           <div className="relative inline-flex items-center justify-center">
             {/* Speech bubble icon — behind the text */}
-            <motion.div style={{ x: leftX }} >
+            <motion.div style={{ x: leftX }}>
               <SpeechBubbleIcon className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-[25%]" />
             </motion.div>
-            <motion.h2 className="text-center relative z-10 text-white mb-12 ml-18" style={{ x: rightX }}>
+            <motion.h2
+              className="text-center relative z-10 text-white mb-12 ml-18"
+              style={{ x: rightX }}
+            >
               <span className="block text-[36px] font-semibold ">
                 CE QUE DISENT
               </span>
@@ -107,7 +115,7 @@ export default function Testimonials() {
         </div>
 
         {/* Testimonial content */}
-        <AnimatePresence mode="wait" >
+        <AnimatePresence mode="wait">
           <motion.div
             key={current.id}
             initial={{ opacity: 0, x: 60 }}
@@ -116,7 +124,7 @@ export default function Testimonials() {
             transition={{ duration: 0.35 }}
             className="flex flex-col items-center  text-center max-w-2xl px-6 cursor-pointer "
             onClick={() => {
-              setCurrentIndex((val) => (val + 1) % testimonials.length)
+              setCurrentIndex((val) => (val + 1) % testimonials.length);
             }}
           >
             {/* Avatar */}
@@ -134,9 +142,7 @@ export default function Testimonials() {
             <h3 className="text-white font-bold text-[20px] ">
               {current.name}
             </h3>
-            <p className="text-white/50 text-[14px] mb-4 ">
-              {current.company}
-            </p>
+            <p className="text-white/50 text-[14px] mb-4 ">{current.company}</p>
 
             {/* Stars */}
             <div className="flex justify-center gap-1 mb-6">
@@ -146,7 +152,7 @@ export default function Testimonials() {
             </div>
 
             {/* Quote */}
-            <p className="text-white/90 text-[20px] md:text-[24px] min-h-64 md:min-h-80 flex items-center justify-center">
+            <p className="text-white/90 text-[20px] md:text-[24px] min-h-64 md:min-h-80 flex items-start justify-start">
               &ldquo;{current.text}&rdquo;
             </p>
           </motion.div>
@@ -158,10 +164,11 @@ export default function Testimonials() {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`rounded-full transition-all duration-300 ${index === currentIndex
-                ? "w-3 h-3 bg-white"
-                : "w-3 h-3 bg-transparent border border-white/40"
-                }`}
+              className={`rounded-full transition-all duration-300 ${
+                index === currentIndex
+                  ? "w-3 h-3 bg-white"
+                  : "w-3 h-3 bg-transparent border border-white/40"
+              }`}
             />
           ))}
         </div>

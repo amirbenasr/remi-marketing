@@ -6,7 +6,8 @@
       "mcp__figma-remote-mcp__get_metadata",
       "Bash(cd:*)",
       "Bash(tail:*)",
-      "Bash(git diff:*)"
+      "Bash(git diff:*)",
+      "mcp__plugin_figma_figma__get_design_context"
     ]
   }
 }

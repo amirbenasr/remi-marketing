@@ -64,7 +64,7 @@ function PortfolioItem({ item }: PortfolioItemProps) {
       className="relative h-full w-full  bg-gray-800 rounded-lg overflow-hidden cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      whileHover={isMobile ? undefined : { scale: 1.02 }}
+      whileHover={isMobile ? undefined : { scale: 1.05 }}
       transition={{ duration: 0.3 }}
     >
       {/* Image container */}
@@ -73,7 +73,7 @@ function PortfolioItem({ item }: PortfolioItemProps) {
           src={item.staticImage}
           alt={item.name}
           fill
-          className="object-fill"
+          className="object-cover object-center"
         />
       </div>
 

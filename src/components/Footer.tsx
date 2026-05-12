@@ -10,7 +10,7 @@ export default function Footer() {
         {/* Social Icons */}
         <div className="flex justify-center gap-6 mb-8">
           <Link
-            href="https://facebook.com"
+            href="https://www.facebook.com/remyagency"
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
@@ -19,7 +19,7 @@ export default function Footer() {
           </Link>
 
           <Link
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/cedremy/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
@@ -28,7 +28,7 @@ export default function Footer() {
           </Link>
 
           <Link
-            href="https://instagram.com"
+            href="https://www.instagram.com/ced.remy"
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
@@ -40,7 +40,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="text-center text-black text-[20px] font-semibold">
           <p>
-            &copy; 2026 REMY Coaching et Marketing |{" "}
+            &copy; 2026 REMY.MARKETING |{" "}
             <Link
               href="/politique"
               className="hover:text-black transition-colors"

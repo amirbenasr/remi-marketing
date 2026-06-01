@@ -131,7 +131,7 @@ function MobileFounderPager() {
             if (info.offset.x < -60 && index < founders.length - 1) setIndex(index + 1);
             else if (info.offset.x > 60 && index > 0) setIndex(index - 1);
           }}
-          animate={{ x: `-${index * 100}%` }}
+          animate={{ x: `-${index * (100 / founders.length)}%` }}
           transition={{ type: "spring", stiffness: 260, damping: 30 }}
           style={{ width: `${founders.length * 100}%` }}
         >

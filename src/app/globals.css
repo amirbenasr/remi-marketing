@@ -72,6 +72,15 @@ html {
   background: #555;
 }
 
+/* Hide scrollbar for horizontal snap carousels (mobile pagers) */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Animation for service cards */
 @keyframes float {
 

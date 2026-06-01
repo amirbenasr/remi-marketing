@@ -113,6 +113,26 @@ function SlidingFounder({
 
 function MobileFounderPager() {
   const [index, setIndex] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+
+  // Sync the active dot to the native scroll position (rAF-throttled).
+  const onScroll = () => {
+    if (rafRef.current != null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const el = trackRef.current;
+      if (!el) return;
+      const i = Math.round(el.scrollLeft / el.clientWidth);
+      setIndex((prev) => (prev === i ? prev : i));
+    });
+  };
+
+  const goTo = (i: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+  };
 
   return (
     <div id="about" className="bg-black text-white min-h-screen flex flex-col">
@@ -121,43 +141,32 @@ function MobileFounderPager() {
         <div className="h-[2px] bg-white/30" />
       </div>
 
-      <div className="relative flex-1 overflow-hidden">
-        <motion.div
-          className="flex h-full touch-pan-y"
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.15}
-          onDragEnd={(_, info) => {
-            if (info.offset.x < -60 && index < founders.length - 1) setIndex(index + 1);
-            else if (info.offset.x > 60 && index > 0) setIndex(index - 1);
-          }}
-          animate={{ x: `-${index * (100 / founders.length)}%` }}
-          transition={{ type: "spring", stiffness: 260, damping: 30 }}
-          style={{ width: `${founders.length * 100}%` }}
-        >
-          {founders.map((founder) => (
-            <div
-              key={founder.name}
-              className="shrink-0 px-6 pb-28 flex flex-col"
-              style={{ width: `${100 / founders.length}%` }}
-            >
-              <div className="relative w-full aspect-[3/4] max-h-[55vh] overflow-hidden bg-white mb-5">
-                <Image src={founder.image} alt={founder.name} fill className="object-cover object-top" />
-              </div>
-              <h3 className="text-[26px] font-semibold mb-3 text-white">{founder.name}</h3>
-              <p className="text-[15px] leading-relaxed text-[#E6E6E6] whitespace-pre-line">
-                {founder.description}
-              </p>
+      <div
+        ref={trackRef}
+        onScroll={onScroll}
+        className="flex-1 flex overflow-x-auto snap-x snap-mandatory no-scrollbar overscroll-x-contain"
+      >
+        {founders.map((founder) => (
+          <div
+            key={founder.name}
+            className="snap-start shrink-0 w-full px-6 pb-28 flex flex-col"
+          >
+            <div className="relative w-full aspect-[3/4] max-h-[55vh] overflow-hidden bg-white mb-5">
+              <Image src={founder.image} alt={founder.name} fill className="object-cover object-top" />
             </div>
-          ))}
-        </motion.div>
+            <h3 className="text-[26px] font-semibold mb-3 text-white">{founder.name}</h3>
+            <p className="text-[15px] leading-relaxed text-[#E6E6E6] whitespace-pre-line">
+              {founder.description}
+            </p>
+          </div>
+        ))}
       </div>
 
       <div className="flex justify-center gap-2 py-6">
         {founders.map((_, i) => (
           <button
             key={i}
-            onClick={() => setIndex(i)}
+            onClick={() => goTo(i)}
             aria-label={`Voir ${founders[i].name}`}
             className={`h-2 rounded-full transition-all ${
               i === index ? "w-8 bg-white" : "w-2 bg-white/40"

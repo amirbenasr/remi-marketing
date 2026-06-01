@@ -68,9 +68,10 @@ Si vous recherchez quelqu’un de passionné et dédié qui amène des résultat
 
 export default function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress, scrollY } = useScroll({
+  const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "start 0.15"],
   });
@@ -78,18 +79,22 @@ export default function Testimonials() {
   const leftX = useTransform(scrollYProgress, [0, 1], ["-1000px", "0px"]);
   const rightX = useTransform(scrollYProgress, [0, 1], ["1000px", "0px"]);
 
-  // // Auto-play — resets timer on manual navigation
+  // Auto-play — pauses on touch/drag, 7s cadence to give long quotes time to read
   useEffect(() => {
+    if (paused) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 4000);
+    }, 7000);
     return () => clearInterval(timer);
-  }, [currentIndex]);
+  }, [currentIndex, paused]);
+
+  const next = () => setCurrentIndex((v) => (v + 1) % testimonials.length);
+  const prev = () => setCurrentIndex((v) => (v - 1 + testimonials.length) % testimonials.length);
 
   const current = testimonials[currentIndex];
 
   return (
-    <div ref={sectionRef}>
+    <div ref={sectionRef} className="relative">
       <section
         id="testimonials"
         className="section-panel testimonials-section min-h-screen  bg-black flex flex-col items-center justify-start py-16 md:py-20 gap-8"
@@ -122,10 +127,17 @@ export default function Testimonials() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -60 }}
             transition={{ duration: 0.35 }}
-            className="flex flex-col items-center  text-center max-w-2xl px-6 cursor-pointer "
-            onClick={() => {
-              setCurrentIndex((val) => (val + 1) % testimonials.length);
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragStart={() => setPaused(true)}
+            onDragEnd={(_, info) => {
+              if (info.offset.x < -60) next();
+              else if (info.offset.x > 60) prev();
             }}
+            onPointerDown={() => setPaused(true)}
+            className="flex flex-col items-center text-center max-w-2xl px-6 cursor-pointer touch-pan-y select-none"
+            onClick={next}
           >
             {/* Avatar */}
             <div className="w-24 h-24 rounded-full overflow-hidden mb-4 ring-2 ring-white/20">

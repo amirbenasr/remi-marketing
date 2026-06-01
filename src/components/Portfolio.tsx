@@ -114,8 +114,40 @@ export default function Portfolio() {
   const leftX = useTransform(scrollYProgress, [0, 1], ["-60%", "0%"]);
   const rightX = useTransform(scrollYProgress, [0, 1], ["60%", "0%"]);
 
+  if (isMobile) {
+    return (
+      <section id="portfolio" className="bg-black py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-right mb-8">
+            <p className="text-white font-semibold text-[22px] tracking-wider">NOS</p>
+            <h2 className="text-[36px] font-semibold text-white leading-none">RÉALISATIONS</h2>
+          </div>
+          <div className="flex flex-col gap-8">
+            {portfolioItems.map((item) => (
+              <div key={item.id}>
+                <div className="relative w-full aspect-[4/5] overflow-hidden rounded-lg bg-gray-800">
+                  <Image
+                    src={item.staticImage}
+                    alt={item.name}
+                    fill
+                    className="object-cover object-center"
+                  />
+                </div>
+                <h3 className="text-white font-semibold text-[18px] mt-3">{item.name}</h3>
+                <p className="text-white/60 text-[13px]">{item.subtitle}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-12">
+          <TrustLogos />
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <div ref={containerRef} className="">
+    <div ref={containerRef} className="relative">
       <section
         id="portfolio"
         className="section-panel   flex flex-col  h-screen portfolio-section bg-black py-12 "
@@ -136,11 +168,7 @@ export default function Portfolio() {
             {portfolioItems.map((item, index) => (
               <motion.div
                 key={item.id}
-                style={
-                  isMobile
-                    ? undefined
-                    : { x: GROUP_A.has(index) ? leftX : rightX }
-                }
+                style={{ x: GROUP_A.has(index) ? leftX : rightX }}
               >
                 <PortfolioItem item={item} />
               </motion.div>

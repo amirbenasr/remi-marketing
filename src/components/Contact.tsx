@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useMotionValue, useMotionTemplate, Mot
 import Image from "next/image";
 import Footer from "./Footer";
 import { PhoneIcon, EmailIcon } from "./icons";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 // Line-height of the heading rows — bubble must not bleed past this.
 const LINE_HEIGHT = 142.8;
@@ -124,6 +125,178 @@ function ShadowText({
 }
 
 export default function Contact() {
+  const isMobile = useIsMobile();
+  if (isMobile) return <MobileContact />;
+  return <DesktopContact />;
+}
+
+function MobileContact() {
+  const [formData, setFormData] = useState({
+    prenom: "",
+    nom: "",
+    courriel: "",
+    telephone: "",
+    message: "",
+  });
+  const [focused, setFocused] = useState<string | null>(null);
+
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+  };
+
+  const fields: { name: keyof typeof formData; label: string; type: string; rows?: number }[] = [
+    { name: "prenom", label: "Prénom", type: "text" },
+    { name: "nom", label: "Nom", type: "text" },
+    { name: "courriel", label: "Courriel", type: "email" },
+    { name: "telephone", label: "Téléphone", type: "tel" },
+    { name: "message", label: "Message", type: "textarea", rows: 4 },
+  ];
+
+  return (
+    <section id="contact" className="contact-section bg-black text-white min-h-screen relative overflow-hidden">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -right-24 w-[420px] h-[420px] rounded-full opacity-30 blur-3xl"
+        style={{ background: "radial-gradient(circle, #ffffff 0%, transparent 70%)" }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 -left-32 w-[360px] h-[360px] rounded-full opacity-20 blur-3xl"
+        style={{ background: "radial-gradient(circle, #ffffff 0%, transparent 70%)" }}
+      />
+
+      <div className="relative px-6 pt-20 pb-32 max-w-md mx-auto">
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-white/50 text-xs tracking-[0.3em] uppercase mb-3"
+        >
+          Contact
+        </motion.p>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.05 }}
+          className="text-[44px] leading-[1.02] font-bold tracking-tight mb-2"
+        >
+          Parlons<br />
+          de votre<br />
+          <span className="italic font-light">projet.</span>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-white/60 text-[15px] leading-relaxed mt-5 mb-8"
+        >
+          Une idée, un défi, une marque à propulser ? Écrivez-nous — on revient
+          vers vous rapidement.
+        </motion.p>
+
+        <div className="flex flex-col gap-3 mb-10">
+          <a
+            href="tel:+15146559912"
+            className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-4 py-4 active:scale-[0.98] transition-transform"
+          >
+            <div className="w-11 h-11 shrink-0 rounded-full bg-white flex items-center justify-center">
+              <PhoneIcon className="w-5 h-5 text-black" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white/50 text-[11px] uppercase tracking-wider">Appelez</span>
+              <span className="text-white text-[16px] font-semibold">(514) 655-9912</span>
+            </div>
+          </a>
+          <a
+            href="mailto:ced@remy.marketing"
+            className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-2xl px-4 py-4 active:scale-[0.98] transition-transform"
+          >
+            <div className="w-11 h-11 shrink-0 rounded-full bg-white flex items-center justify-center">
+              <EmailIcon className="w-5 h-5 text-black" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-white/50 text-[11px] uppercase tracking-wider">Écrivez</span>
+              <span className="text-white text-[16px] font-semibold">ced@remy.marketing</span>
+            </div>
+          </a>
+        </div>
+
+        <div className="flex items-center gap-3 mb-6">
+          <div className="h-[1px] flex-1 bg-white/15" />
+          <span className="text-white/40 text-[11px] uppercase tracking-[0.25em]">ou écrivez-nous</span>
+          <div className="h-[1px] flex-1 bg-white/15" />
+        </div>
+
+        <form onSubmit={onSubmit} className="flex flex-col gap-5">
+          {fields.map((f) => {
+            const isActive = focused === f.name || !!formData[f.name];
+            return (
+              <div key={f.name} className="relative">
+                <label
+                  htmlFor={f.name}
+                  className={`absolute left-0 pointer-events-none transition-all duration-200 ${
+                    isActive
+                      ? "top-0 text-[11px] tracking-wider uppercase text-white/60"
+                      : "top-4 text-[16px] text-white/50"
+                  }`}
+                >
+                  {f.label}
+                </label>
+                {f.type === "textarea" ? (
+                  <textarea
+                    id={f.name}
+                    name={f.name}
+                    rows={f.rows}
+                    value={formData[f.name]}
+                    onChange={onChange}
+                    onFocus={() => setFocused(f.name)}
+                    onBlur={() => setFocused(null)}
+                    className="w-full bg-transparent text-white text-[16px] border-b border-white/20 focus:border-white outline-hidden pt-5 pb-2 resize-none transition-colors"
+                  />
+                ) : (
+                  <input
+                    id={f.name}
+                    type={f.type}
+                    name={f.name}
+                    value={formData[f.name]}
+                    onChange={onChange}
+                    onFocus={() => setFocused(f.name)}
+                    onBlur={() => setFocused(null)}
+                    className="w-full bg-transparent text-white text-[16px] border-b border-white/20 focus:border-white outline-hidden pt-5 pb-2 transition-colors"
+                  />
+                )}
+              </div>
+            );
+          })}
+
+          <motion.button
+            type="submit"
+            whileTap={{ scale: 0.97 }}
+            className="mt-4 w-full bg-white text-black rounded-full py-4 text-[15px] font-bold tracking-wide flex items-center justify-center gap-2"
+          >
+            ENVOYER
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </motion.button>
+        </form>
+      </div>
+
+      <Footer />
+    </section>
+  );
+}
+
+function DesktopContact() {
   const [hovered, setHovered] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
   const colRef = useRef<HTMLDivElement>(null);
@@ -168,7 +341,7 @@ export default function Contact() {
     <div
       ref={sectionRef}
       id="contact"
-      className="section-panel contact-section bg-transparent min-h-screen"
+      className="section-panel contact-section bg-transparent min-h-screen relative"
     >
       {/* Refraction filter — turbulence-driven displacement map.
           Warps the masked shadow text inside the bubble so it reads as glass-bent
@@ -199,7 +372,7 @@ export default function Contact() {
         style={{ rotate }}
       >
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-12 items-start">
             {/* Left Side - Title & Contact Info */}
             <div ref={colRef}>
               <div

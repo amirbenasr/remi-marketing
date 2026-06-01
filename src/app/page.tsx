@@ -8,6 +8,7 @@ import Testimonials from "@/components/Testimonials";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ScrollStack from "@/components/ScrollStack";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
           <Contact />
         </ScrollStack>
       </main>
+      <StickyMobileCTA />
     </>
   );
 }

@@ -111,6 +111,73 @@ function SlidingFounder({
   );
 }
 
+function MobileFounderPager() {
+  const [index, setIndex] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+
+  // Sync the active dot to the native scroll position (rAF-throttled).
+  const onScroll = () => {
+    if (rafRef.current != null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const el = trackRef.current;
+      if (!el) return;
+      const i = Math.round(el.scrollLeft / el.clientWidth);
+      setIndex((prev) => (prev === i ? prev : i));
+    });
+  };
+
+  const goTo = (i: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollTo({ left: i * el.clientWidth, behavior: "smooth" });
+  };
+
+  return (
+    <div id="about" className="bg-black text-white min-h-screen flex flex-col">
+      <div className="px-6 pt-20 pb-6 max-w-7xl w-full mx-auto">
+        <h2 className="text-[32px] font-semibold mb-3 text-white">À PROPOS</h2>
+        <div className="h-[2px] bg-white/30" />
+      </div>
+
+      <div
+        ref={trackRef}
+        onScroll={onScroll}
+        className="flex-1 flex overflow-x-auto snap-x snap-mandatory no-scrollbar overscroll-x-contain"
+      >
+        {founders.map((founder) => (
+          <div
+            key={founder.name}
+            className="snap-start shrink-0 w-full px-6 pb-28 flex flex-col"
+          >
+            <div className="relative w-full aspect-[3/4] max-h-[55vh] overflow-hidden bg-white mb-5">
+              <Image src={founder.image} alt={founder.name} fill className="object-cover object-top" />
+            </div>
+            <h3 className="text-[26px] font-semibold mb-3 text-white">{founder.name}</h3>
+            <p className="text-[15px] leading-relaxed text-[#E6E6E6] whitespace-pre-line">
+              {founder.description}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex justify-center gap-2 py-6">
+        {founders.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            aria-label={`Voir ${founders[i].name}`}
+            className={`h-2 rounded-full transition-all ${
+              i === index ? "w-8 bg-white" : "w-2 bg-white/40"
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function About() {
   const isMobile = useIsMobile();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -128,48 +195,12 @@ export default function About() {
     }
   }, [inView]);
 
-  // Mobile: static vertical list, no scroll-driven animations
-  if (isMobile) {
-    return (
-      <div id="about" className="bg-black text-white">
-        <div className="px-6 pt-20 pb-8 max-w-7xl w-full mx-auto">
-          <h2 className="text-[36px] font-semibold mb-4 text-white">À PROPOS</h2>
-          <motion.div
-            className="h-[2px] bg-white"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            style={{ originX: 0 }}
-            viewport={{ once: true, amount: 0.5 }}
-          />
-        </div>
-        <div className="max-w-7xl mx-auto px-6 pb-16 flex flex-col gap-12">
-          {founders.map((founder) => (
-            <div key={founder.name}>
-              <div className="aspect-[3/4] max-h-72 overflow-hidden relative bg-white mb-6">
-                <Image
-                  src={founder.image}
-                  alt={founder.name}
-                  fill
-                  className="object-cover object-top"
-                />
-              </div>
-              <h3 className="text-[32px] font-semibold mb-3 text-white">
-                {founder.name}
-              </h3>
-              <p className="text-[20px] font-semibold leading-relaxed text-[#E6E6E6] whitespace-pre-line">
-                {founder.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // Mobile: horizontal swipeable pager — one founder per screen
+  if (isMobile) return <MobileFounderPager />;
 
   // Desktop: existing scroll-driven animation
   return (
-    <div id="about" ref={containerRef} style={{ height: "300vh" }}>
+    <div id="about" ref={containerRef} style={{ height: "300vh", position: "relative" }}>
       <section className="section-panel about-section sticky top-0 h-screen bg-black text-white flex flex-col overflow-hidden">
         {/* Header — always visible */}
         <div className="px-6 pt-8 pb-8 max-w-7xl w-full mx-auto flex-shrink-0">

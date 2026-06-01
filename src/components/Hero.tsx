@@ -14,7 +14,6 @@ export default function Hero() {
       <video
         className="absolute inset-0 w-full h-full object-cover"
         src="https://remy.marketing/wp-content/uploads/2023/10/REMY-Loop30sec.mp4"
-        poster="/images/hero-poster.jpg"
         autoPlay
         muted
         loop

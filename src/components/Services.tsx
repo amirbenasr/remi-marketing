@@ -422,7 +422,7 @@ export default function Services() {
 
   // Desktop: existing scroll-driven animation
   return (
-    <div id="services" ref={containerRef} style={{ height: "250vh" }}>
+    <div id="services" ref={containerRef} style={{ height: "250vh", position: "relative" }}>
       <section className="section-panel services-section sticky top-0 h-screen bg-white overflow-hidden flex flex-col">
         {/* Section Title */}
         <div className="max-w-7xl mx-auto px-6 w-full pt-20 pb-8 flex-shrink-0">

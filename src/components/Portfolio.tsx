@@ -147,7 +147,7 @@ export default function Portfolio() {
   }
 
   return (
-    <div ref={containerRef} className="">
+    <div ref={containerRef} className="relative">
       <section
         id="portfolio"
         className="section-panel   flex flex-col  h-screen portfolio-section bg-black py-12 "

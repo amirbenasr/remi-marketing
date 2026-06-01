@@ -168,7 +168,7 @@ export default function Contact() {
     <div
       ref={sectionRef}
       id="contact"
-      className="section-panel contact-section bg-transparent min-h-screen"
+      className="section-panel contact-section bg-transparent min-h-screen relative"
     >
       {/* Refraction filter — turbulence-driven displacement map.
           Warps the masked shadow text inside the bubble so it reads as glass-bent

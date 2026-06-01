@@ -94,7 +94,7 @@ export default function Testimonials() {
   const current = testimonials[currentIndex];
 
   return (
-    <div ref={sectionRef}>
+    <div ref={sectionRef} className="relative">
       <section
         id="testimonials"
         className="section-panel testimonials-section min-h-screen  bg-black flex flex-col items-center justify-start py-16 md:py-20 gap-8"

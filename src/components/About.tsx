@@ -191,7 +191,7 @@ export default function About() {
 
   // Desktop: existing scroll-driven animation
   return (
-    <div id="about" ref={containerRef} style={{ height: "300vh" }}>
+    <div id="about" ref={containerRef} style={{ height: "300vh", position: "relative" }}>
       <section className="section-panel about-section sticky top-0 h-screen bg-black text-white flex flex-col overflow-hidden">
         {/* Header — always visible */}
         <div className="px-6 pt-8 pb-8 max-w-7xl w-full mx-auto flex-shrink-0">

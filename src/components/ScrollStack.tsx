@@ -24,38 +24,36 @@ export default function ScrollStack({ children }: ScrollStackProps) {
     const container = containerRef.current;
     if (!container) return;
 
-    // Get all section panels
-    const panels = container.querySelectorAll<HTMLElement>(".section-panel");
+    // gsap.context() scopes every trigger created inside it so ctx.revert()
+    // restores the original DOM. Without it, ScrollTrigger leaves pin-spacer
+    // wrappers behind and React's unmount hits a stale parent → NotFoundError
+    // on removeChild when resizing across the mobile breakpoint.
+    const ctx = gsap.context(() => {
+      const panels = container.querySelectorAll<HTMLElement>(".section-panel");
 
-    // Create scroll trigger for each panel
-    panels.forEach((panel, index) => {
-      // Skip the last panel - it doesn't need to be pinned
-      gsap.set(panel, { zIndex: index });
-      if (index === panels.length - 1) return;
+      panels.forEach((panel, index) => {
+        gsap.set(panel, { zIndex: index });
+        if (index === panels.length - 1) return;
 
-      ScrollTrigger.create({
-        trigger: panel,
-        start: "top top",
-        end: "bottom top",
-        pin: true,
-        pinSpacing: false,
-        scrub: 1,
-        // markers: true,
-        // Add z-index so panels stack properly
-        endTrigger: panels[index + 1],
-        onEnter: () => {
-          gsap.set(panel, { zIndex: panels.length - index });
-        },
-        onLeaveBack: () => {
-          gsap.set(panel, { zIndex: panels.length - index });
-        },
+        ScrollTrigger.create({
+          trigger: panel,
+          start: "top top",
+          end: "bottom top",
+          pin: true,
+          pinSpacing: false,
+          scrub: 1,
+          endTrigger: panels[index + 1],
+          onEnter: () => {
+            gsap.set(panel, { zIndex: panels.length - index });
+          },
+          onLeaveBack: () => {
+            gsap.set(panel, { zIndex: panels.length - index });
+          },
+        });
       });
-    });
+    }, container);
 
-    // Cleanup
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
+    return () => ctx.revert();
   }, [isMobile]);
 
   return (

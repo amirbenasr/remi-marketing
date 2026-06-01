@@ -21,6 +21,14 @@ export default function ScrollStack({ children }: ScrollStackProps) {
   useEffect(() => {
     if (isMobile) return;
 
+    // `isMobile` defaults to false (no `window` at SSR/first render), so on a
+    // real mobile device this effect runs once with isMobile === false before
+    // useIsMobile flips it. Re-check the viewport directly so GSAP NEVER
+    // initializes on mobile — otherwise the pin-spacers it injects get torn
+    // down at the same commit the desktop→mobile subtree swap happens, and
+    // React's removeChild hits a stale parent → NotFoundError on every load.
+    if (window.matchMedia("(max-width: 767px)").matches) return;
+
     const container = containerRef.current;
     if (!container) return;
 

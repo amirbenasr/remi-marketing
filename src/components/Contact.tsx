@@ -171,36 +171,17 @@ function MobileContact() {
       />
 
       <div className="relative px-6 pt-20 pb-32 max-w-md mx-auto">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-white/50 text-xs tracking-[0.3em] uppercase mb-3"
-        >
-          Contact
-        </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.05 }}
-          className="text-[44px] leading-[1.02] font-bold tracking-tight mb-2"
+          className="text-[44px] leading-[1.02] font-bold tracking-tight mb-10"
         >
-          Parlons<br />
-          de votre<br />
-          <span className="italic font-light">projet.</span>
+          PARLONS<br />
+          DE VOTRE<br />
+          PROJET
         </motion.h2>
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-white/60 text-[15px] leading-relaxed mt-5 mb-8"
-        >
-          Une idée, un défi, une marque à propulser ? Écrivez-nous — on revient
-          vers vous rapidement.
-        </motion.p>
 
         <div className="flex flex-col gap-3 mb-10">
           <a
@@ -210,10 +191,7 @@ function MobileContact() {
             <div className="w-11 h-11 shrink-0 rounded-full bg-white flex items-center justify-center">
               <PhoneIcon className="w-5 h-5 text-black" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-white/50 text-[11px] uppercase tracking-wider">Appelez</span>
-              <span className="text-white text-[16px] font-semibold">(514) 655-9912</span>
-            </div>
+            <span className="text-white text-[16px] font-semibold">(514) 655-9912</span>
           </a>
           <a
             href="mailto:ced@remy.marketing"
@@ -222,17 +200,8 @@ function MobileContact() {
             <div className="w-11 h-11 shrink-0 rounded-full bg-white flex items-center justify-center">
               <EmailIcon className="w-5 h-5 text-black" />
             </div>
-            <div className="flex flex-col">
-              <span className="text-white/50 text-[11px] uppercase tracking-wider">Écrivez</span>
-              <span className="text-white text-[16px] font-semibold">ced@remy.marketing</span>
-            </div>
+            <span className="text-white text-[16px] font-semibold">ced@remy.marketing</span>
           </a>
-        </div>
-
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-[1px] flex-1 bg-white/15" />
-          <span className="text-white/40 text-[11px] uppercase tracking-[0.25em]">ou écrivez-nous</span>
-          <div className="h-[1px] flex-1 bg-white/15" />
         </div>
 
         <form onSubmit={onSubmit} className="flex flex-col gap-5">
@@ -242,10 +211,12 @@ function MobileContact() {
               <div key={f.name} className="relative">
                 <label
                   htmlFor={f.name}
-                  className={`absolute left-0 pointer-events-none transition-all duration-200 ${
+                  className={`absolute pointer-events-none transition-all duration-200 ${
                     isActive
-                      ? "top-0 text-[11px] tracking-wider uppercase text-white/60"
-                      : "top-4 text-[16px] text-white/50"
+                      ? "-top-2 left-3 text-[11px] tracking-wider uppercase text-white/70 bg-black px-1.5"
+                      : f.type === "textarea"
+                        ? "top-4 left-4 text-[16px] text-white/50"
+                        : "top-1/2 -translate-y-1/2 left-4 text-[16px] text-white/50"
                   }`}
                 >
                   {f.label}
@@ -259,7 +230,7 @@ function MobileContact() {
                     onChange={onChange}
                     onFocus={() => setFocused(f.name)}
                     onBlur={() => setFocused(null)}
-                    className="w-full bg-transparent text-white text-[16px] border-b border-white/20 focus:border-white outline-hidden pt-5 pb-2 resize-none transition-colors"
+                    className="w-full bg-transparent text-white text-[16px] border border-white/25 rounded-xl focus:border-white outline-hidden px-4 py-3.5 resize-none transition-colors"
                   />
                 ) : (
                   <input
@@ -270,7 +241,7 @@ function MobileContact() {
                     onChange={onChange}
                     onFocus={() => setFocused(f.name)}
                     onBlur={() => setFocused(null)}
-                    className="w-full bg-transparent text-white text-[16px] border-b border-white/20 focus:border-white outline-hidden pt-5 pb-2 transition-colors"
+                    className="w-full bg-transparent text-white text-[16px] border border-white/25 rounded-xl focus:border-white outline-hidden px-4 py-3.5 transition-colors"
                   />
                 )}
               </div>
@@ -280,13 +251,9 @@ function MobileContact() {
           <motion.button
             type="submit"
             whileTap={{ scale: 0.97 }}
-            className="mt-4 w-full bg-white text-black rounded-full py-4 text-[15px] font-bold tracking-wide flex items-center justify-center gap-2"
+            className="self-end mt-4 bg-white text-black px-8 py-3 text-[15px] font-bold tracking-wide border-2 border-white"
           >
             ENVOYER
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
           </motion.button>
         </form>
       </div>

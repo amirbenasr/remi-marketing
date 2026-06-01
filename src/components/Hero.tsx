@@ -23,10 +23,10 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/50" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6">
+      <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-start md:items-center text-left md:text-center px-14 md:px-6">
         {/* Headline — animates in first */}
         <motion.h1
-          className="text-white text-left font-bold text-5xl md:text-6xl lg:text-5xl leading-tight tracking-wide mb-10"
+          className="text-white font-bold text-4xl md:text-6xl lg:text-5xl leading-tight tracking-wide mb-10"
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}

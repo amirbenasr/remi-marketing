@@ -311,31 +311,21 @@ function ServiceCard({
   );
 }
 
-function ServiceAccordion({ service }: { service: Service }) {
+function MobileServicePill({ service }: { service: Service }) {
   const [open, setOpen] = useState(false);
   return (
     <div>
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center gap-4 py-5 text-left"
+        className="w-full bg-black rounded-2xl px-5 py-4 flex items-center justify-between gap-4 active:scale-[0.98] transition-transform"
         aria-expanded={open}
       >
-        {serviceIcons[service.id] && (
-          <div className="w-8 h-8 shrink-0 text-black [&>svg]:w-8 [&>svg]:h-8">
-            {serviceIcons[service.id]}
-          </div>
-        )}
-        <h3 className="flex-1 text-black font-semibold text-[18px] leading-tight whitespace-pre-line">
+        <span className="text-white font-bold text-[13px] uppercase tracking-wide text-left leading-tight">
           {service.title.replace(/\n/g, " ")}
-        </h3>
-        <motion.span
-          animate={{ rotate: open ? 45 : 0 }}
-          transition={{ duration: 0.2 }}
-          className="text-black text-2xl leading-none shrink-0"
-          aria-hidden
-        >
-          +
-        </motion.span>
+        </span>
+        <span className="w-6 h-6 shrink-0 text-white/70 [&>svg]:w-6 [&>svg]:h-6">
+          <EyeIcon />
+        </span>
       </button>
       <AnimatePresence initial={false}>
         {open && (
@@ -346,18 +336,18 @@ function ServiceAccordion({ service }: { service: Service }) {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="pb-6 pl-12 pr-2 space-y-4">
+            <div className="bg-black rounded-2xl mt-2 px-6 py-4 divide-y divide-white/10">
               {service.details.map((detail, i) => (
-                <div key={i}>
-                  <p className="text-black font-bold text-[14px] whitespace-pre-line leading-snug">
+                <div key={i} className="py-4 text-center first:pt-1 last:pb-1">
+                  <p className="text-white font-bold text-[13px] uppercase tracking-wide whitespace-pre-line leading-tight">
                     {detail.title}
                   </p>
                   {detail.subtitle && (
-                    <p className="text-black/70 font-semibold text-[12px] mt-0.5">
+                    <p className="text-white/70 font-semibold text-[11px] mt-1 whitespace-pre-line">
                       {detail.subtitle}
                     </p>
                   )}
-                  <p className="text-[#6b6b6b] text-[13px] leading-relaxed mt-1 whitespace-pre-line">
+                  <p className="text-white/50 text-[12px] leading-snug whitespace-pre-line mt-1.5">
                     {detail.description}
                   </p>
                 </div>
@@ -410,9 +400,9 @@ export default function Services() {
             style={{ originX: 0 }}
             viewport={{ once: true }}
           />
-          <div className="flex flex-col divide-y divide-black/10">
+          <div className="flex flex-col gap-3">
             {allServices.map((service) => (
-              <ServiceAccordion key={service.id} service={service} />
+              <MobileServicePill key={service.id} service={service} />
             ))}
           </div>
         </div>

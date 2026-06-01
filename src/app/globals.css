@@ -27,6 +27,12 @@
   will-change: transform;
 }
 
+@media (max-width: 768px) {
+  .animate-marquee {
+    animation-duration: 8s;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

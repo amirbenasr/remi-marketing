@@ -199,7 +199,7 @@ export default function Contact() {
         style={{ rotate }}
       >
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-start">
+          <div className="flex flex-col-reverse md:grid md:grid-cols-2 gap-12 items-start">
             {/* Left Side - Title & Contact Info */}
             <div ref={colRef}>
               <div

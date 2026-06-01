@@ -311,6 +311,65 @@ function ServiceCard({
   );
 }
 
+function ServiceAccordion({ service }: { service: Service }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center gap-4 py-5 text-left"
+        aria-expanded={open}
+      >
+        {serviceIcons[service.id] && (
+          <div className="w-8 h-8 shrink-0 text-black [&>svg]:w-8 [&>svg]:h-8">
+            {serviceIcons[service.id]}
+          </div>
+        )}
+        <h3 className="flex-1 text-black font-semibold text-[18px] leading-tight whitespace-pre-line">
+          {service.title.replace(/\n/g, " ")}
+        </h3>
+        <motion.span
+          animate={{ rotate: open ? 45 : 0 }}
+          transition={{ duration: 0.2 }}
+          className="text-black text-2xl leading-none shrink-0"
+          aria-hidden
+        >
+          +
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="pb-6 pl-12 pr-2 space-y-4">
+              {service.details.map((detail, i) => (
+                <div key={i}>
+                  <p className="text-black font-bold text-[14px] whitespace-pre-line leading-snug">
+                    {detail.title}
+                  </p>
+                  {detail.subtitle && (
+                    <p className="text-black/70 font-semibold text-[12px] mt-0.5">
+                      {detail.subtitle}
+                    </p>
+                  )}
+                  <p className="text-[#6b6b6b] text-[13px] leading-relaxed mt-1 whitespace-pre-line">
+                    {detail.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 function SlidingCard({
   service,
   scrollYProgress,
@@ -336,26 +395,24 @@ export default function Services() {
     offset: ["start start", "end end"],
   });
 
-  // Mobile: static grid, tap-toggle cards
+  // Mobile: vertical accordion list
   if (isMobile) {
     const allServices = [...services, ...newServices];
     return (
       <div id="services" className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-[36px] font-semibold text-black mb-4">
-            SERVICES
-          </h2>
+          <h2 className="text-[32px] font-semibold text-black mb-3">SERVICES</h2>
           <motion.div
-            className="h-2 bg-black/30 mb-8"
+            className="h-[2px] bg-black/40 mb-8"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
-            style={{ originX: 1 }}
+            style={{ originX: 0 }}
             viewport={{ once: true }}
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col divide-y divide-black/10">
             {allServices.map((service) => (
-              <ServiceCard key={service.id} service={service} mobile />
+              <ServiceAccordion key={service.id} service={service} />
             ))}
           </div>
         </div>

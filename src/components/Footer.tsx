@@ -38,7 +38,7 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="text-center text-black text-[20px] font-semibold">
+        <div className="text-center text-black text-[12px] font-medium">
           <p>
             &copy; 2026 REMY.MARKETING |{" "}
             <Link

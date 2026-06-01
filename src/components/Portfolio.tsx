@@ -122,19 +122,33 @@ export default function Portfolio() {
             <p className="text-white font-semibold text-[22px] tracking-wider">NOS</p>
             <h2 className="text-[36px] font-semibold text-white leading-none">RÉALISATIONS</h2>
           </div>
-          <div className="flex flex-col gap-8">
-            {portfolioItems.map((item) => (
-              <div key={item.id}>
-                <div className="relative w-full aspect-[4/5] overflow-hidden rounded-lg bg-gray-800">
+          {/* Scroll-pinned card stack: each realisation sticks near the top and
+              the next slides up to stack over it as you scroll. */}
+          <div className="relative">
+            {portfolioItems.map((item, i) => (
+              <div
+                key={item.id}
+                className="sticky"
+                style={{
+                  top: `${72 + i * 12}px`,
+                  marginBottom: i === portfolioItems.length - 1 ? 0 : "2rem",
+                }}
+              >
+                <div className="relative w-full max-w-xs mx-auto aspect-[4/3] overflow-hidden rounded-2xl bg-gray-800 shadow-2xl shadow-black/60">
                   <Image
                     src={item.staticImage}
                     alt={item.name}
                     fill
                     className="object-cover object-center"
                   />
+                  {/* Bottom gradient + caption */}
+                  <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
+                    <h3 className="text-white font-semibold text-[18px] leading-tight">
+                      {item.name}
+                    </h3>
+                    <p className="text-white/70 text-[13px] mt-0.5">{item.subtitle}</p>
+                  </div>
                 </div>
-                <h3 className="text-white font-semibold text-[18px] mt-3">{item.name}</h3>
-                <p className="text-white/60 text-[13px]">{item.subtitle}</p>
               </div>
             ))}
           </div>

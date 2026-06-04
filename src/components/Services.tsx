@@ -393,7 +393,7 @@ export default function Services() {
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-[32px] font-semibold text-black mb-3">SERVICES</h2>
           <motion.div
-            className="h-[2px] bg-black/40 mb-8"
+            className="h-[2px] bg-black mb-8"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}

@@ -26,8 +26,8 @@ export default function TrustLogos() {
 
         {/* Logos Marquee */}
         <div className="overflow-hidden   ">
-          <div className="flex  animate-marquee items-center my-auto">
-            {[logos, logos, logos, logos].flat().map((logo, i) => (
+          <div className="flex w-max animate-marquee items-center my-auto">
+            {[...logos, ...logos].map((logo, i) => (
               <Image
                 key={i}
                 src={logo.image}

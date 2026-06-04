@@ -81,7 +81,7 @@ function MobilePortfolioItem({ item }: PortfolioItemProps) {
           alt={item.name}
           width={250}
           height={300}
-          className="mx-auto"
+          className="mx-auto max-h-full w-auto object-contain"
         />
       </motion.div>
     </div>
@@ -94,19 +94,19 @@ function PortfolioItem({ item }: PortfolioItemProps) {
 
   return (
     <motion.div
-      className="relative h-full w-full  bg-gray-800 rounded-lg overflow-hidden cursor-pointer group"
+      className="relative h-full w-full  bg-transparent rounded-lg overflow-hidden cursor-pointer group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       whileHover={isMobile ? undefined : { scale: 1.05 }}
       transition={{ duration: 0.3 }}
     >
       {/* Image container */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 rounded-2xl">
         <Image
           src={item.staticImage}
           alt={item.name}
           fill
-          className="object-cover object-center"
+          className="object-contain "
         />
       </div>
 
@@ -152,8 +152,8 @@ export default function Portfolio() {
       <section id="portfolio" className="bg-black py-16">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-right mb-8">
-            <p className="text-white font-semibold text-[22px] tracking-wider">NOS</p>
-            <h2 className="text-[36px] font-semibold text-white leading-none">RÉALISATIONS</h2>
+            <p className="text-white font-semibold text-[18px] tracking-wider">NOS</p>
+            <h2 className="text-[28px] font-semibold text-white leading-none">RÉALISATIONS</h2>
           </div>
           {/* Scroll-pinned card stack: each realisation sticks near the top and
               the next slides up to stack over it as you scroll. */}

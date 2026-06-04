@@ -164,7 +164,7 @@ export default function Testimonials() {
             </div>
 
             {/* Quote */}
-            <p className="text-white/90 text-[20px] md:text-[24px] min-h-64 md:min-h-80 flex items-start justify-start">
+            <p className="text-white/90 text-[16px] md:text-[18px] min-h-64 md:min-h-80 flex items-start justify-start">
               &ldquo;{current.text}&rdquo;
             </p>
           </motion.div>

@@ -8,7 +8,7 @@ import { ChevronDownIcon } from "./icons";
 
 const founders = [
   {
-    name: "CED REMY",
+    name: "CED REMI",
     description:
       `Propriétaire de REMY.marketing depuis 2018 et consultant en marketing immobilier, Cedrick Remy cumule un fort bagage d’expérience en politique, communications et ventes. Son parcours professionnel a pris son envol dans la jeune vingtaine alors qu’il a agis comme attaché politique à l’Assemblée nationale du Québec auprès du député provincial de Blainville, Mario Laframboise.\n\nDurant les mêmes années, il a animé et produit différentes émissions de télé et podcasts sur la chaîne MaTV Laval ainsi que plusieurs plateformes web. Il a ensuite approfondi son parcours dans les médias comme promoteur et créateur de contenu à la radio sur les ondes de 105,7 Rythme FM ou il a collaboré avec plusieurs personnalités telles que Patrice Bélanger, Etienne Boulay, Marianne St-Gelais et plusieurs autres. Troisième génération dans les médias (après Edward Remy et Erick Remy), Ced se consacre aujourd’hui avec son équipe à faire rayonner les entreprises, professionnels et courtiers immobiliers grâce à une approche créative, humaine et professionnelle. `,
     image: "/images/about/CED.png",
@@ -74,7 +74,7 @@ function FounderCard({
             <ChevronDownIcon className="w-12 h-12 text-white" />
           </div>
           <h3 className="text-[32px] font-semibold mb-6 text-white">{founder.name}</h3>
-          <p className="text-[20px] font-semibold leading-relaxed text-[#E6E6E6] whitespace-pre-line">{founder.description}</p>
+          <p className={`${index === 0 ? "text-[16px]" : "text-[16px]"} font-semibold leading-relaxed text-[#E6E6E6] whitespace-pre-line`}>{founder.description}</p>
         </div>
       </div>
     </div>
@@ -139,7 +139,7 @@ function MobileFounderPager() {
     <div id="about" className="bg-black text-white min-h-screen flex flex-col">
       <div className="px-6 pt-20 pb-6 max-w-7xl w-full mx-auto">
         <h2 className="text-[32px] font-semibold mb-3 text-white">À PROPOS</h2>
-        <div className="h-[2px] bg-white/30" />
+        <div className="h-[2px] bg-white" />
       </div>
 
       <div

@@ -55,6 +55,39 @@ interface PortfolioItemProps {
   item: (typeof portfolioItems)[0];
 }
 
+function MobilePortfolioItem({ item }: PortfolioItemProps) {
+  const [isRevealed, setIsRevealed] = useState(false);
+
+  return (
+    <div
+      className="relative w-full max-w-xs mx-auto aspect-[4/3] overflow-hidden rounded-2xl bg-gray-800 shadow-2xl shadow-black/60 cursor-pointer"
+      onClick={() => setIsRevealed((v) => !v)}
+    >
+      <Image
+        src={item.staticImage}
+        alt={item.name}
+        fill
+        className="object-cover object-center"
+      />
+      {/* Logo overlay — tap to fade out and reveal the screenshot, tap again to restore */}
+      <motion.div
+        className="absolute inset-0 bg-black/70 flex items-center justify-center p-4"
+        initial={{ opacity: 1 }}
+        animate={{ opacity: isRevealed ? 0 : 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Image
+          src={item.logoImage}
+          alt={item.name}
+          width={250}
+          height={300}
+          className="mx-auto"
+        />
+      </motion.div>
+    </div>
+  );
+}
+
 function PortfolioItem({ item }: PortfolioItemProps) {
   const [isHovered, setIsHovered] = useState(false);
   const isMobile = useIsMobile();
@@ -134,21 +167,7 @@ export default function Portfolio() {
                   marginBottom: i === portfolioItems.length - 1 ? 0 : "2rem",
                 }}
               >
-                <div className="relative w-full max-w-xs mx-auto aspect-[4/3] overflow-hidden rounded-2xl bg-gray-800 shadow-2xl shadow-black/60">
-                  <Image
-                    src={item.staticImage}
-                    alt={item.name}
-                    fill
-                    className="object-cover object-center"
-                  />
-                  {/* Bottom gradient + caption */}
-                  <div className="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
-                    <h3 className="text-white font-semibold text-[18px] leading-tight">
-                      {item.name}
-                    </h3>
-                    <p className="text-white/70 text-[13px] mt-0.5">{item.subtitle}</p>
-                  </div>
-                </div>
+                <MobilePortfolioItem item={item} />
               </div>
             ))}
           </div>

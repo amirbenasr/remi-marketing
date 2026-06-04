@@ -22,8 +22,9 @@ const founders = [
   },
   {
     name: "LORENA",
-    description:
-      "LORENA  Visionnaire et organisée, Lorena veille à la réussite de chaque projet avec rigueur et créativité. Elle s’assure que chaque idée prenne forme avec clarté, efficacité et impact.",
+    description: `Graphiste chez REMY.marketing, Lorena contribue à la création et au développement visuel des projets de l’entreprise en mettant à profit sa créativité, son sens esthétique et sa maîtrise des tendances graphiques actuelles. Passionnée par le design et les communications visuelles, elle accompagne les clients dans la mise en valeur de leur image de marque à travers des concepts percutants et adaptés à leurs objectifs.
+
+Au fil de son parcours, elle a développé une expertise en conception graphique, en création de contenu numérique, en identité visuelle et en production de matériel promotionnel destiné aux médias imprimés et aux plateformes numériques. Reconnue pour son souci du détail, son efficacité et sa capacité à transformer les idées en visuels accrocheurs, Lorena apporte une touche créative unique à chaque projet.`,
     image: "/images/about/LORENA.png",
     gif: "/images/about/LORENA.gif",
   },

@@ -15,21 +15,27 @@
 
 @keyframes marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .animate-marquee {
-  will-change: transform;
+  /* iOS Safari compositing stability: keep the GPU layer alive instead of
+     letting Safari evict/recreate it mid-animation (the flicker + blank-out).
+     Note: no `will-change` — on a wide strip it forces a large permanent
+     texture that iOS drops under memory pressure. translateZ is enough. */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
-@media (max-width: 768px) {
+@media (prefers-reduced-motion: reduce) {
   .animate-marquee {
-    animation-duration: 12s;
+    animation: none;
   }
 }
 

@@ -24,9 +24,10 @@ export default function TrustLogos() {
           viewport={{ once: true, amount: 0.5 }}
         />
 
-        {/* Logos Marquee */}
-        <div className="overflow-hidden   ">
-          <div className="flex w-max animate-marquee items-center my-auto">
+        {/* Logos Marquee — two identical sets; the track translates -50%
+            so the loop is seamless. The duplicate is aria-hidden. */}
+        <div className="overflow-hidden">
+          <div className="flex w-max animate-marquee items-center">
             {[...logos, ...logos].map((logo, i) => (
               <Image
                 key={i}
@@ -34,7 +35,9 @@ export default function TrustLogos() {
                 alt={logo.name}
                 width={200}
                 height={100}
-                className="shrink-0 mb-4 object-contain max-h-[80px] w-auto mx-6 md:mx-10"
+                loading="eager"
+                aria-hidden={i >= logos.length}
+                className="shrink-0 object-contain max-h-20 w-auto mx-6 md:mx-10"
               />
             ))}
           </div>

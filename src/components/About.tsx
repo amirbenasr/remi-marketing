@@ -8,7 +8,7 @@ import { ChevronDownIcon } from "./icons";
 
 const founders = [
   {
-    name: "CED REMI",
+    name: "CED REMY",
     description:
       `Propriétaire de REMY.marketing depuis 2018 et consultant en marketing immobilier, Cedrick Remy cumule un fort bagage d’expérience en politique, communications et ventes. Son parcours professionnel a pris son envol dans la jeune vingtaine alors qu’il a agis comme attaché politique à l’Assemblée nationale du Québec auprès du député provincial de Blainville, Mario Laframboise.\n\nDurant les mêmes années, il a animé et produit différentes émissions de télé et podcasts sur la chaîne MaTV Laval ainsi que plusieurs plateformes web. Il a ensuite approfondi son parcours dans les médias comme promoteur et créateur de contenu à la radio sur les ondes de 105,7 Rythme FM ou il a collaboré avec plusieurs personnalités telles que Patrice Bélanger, Etienne Boulay, Marianne St-Gelais et plusieurs autres. Troisième génération dans les médias (après Edward Remy et Erick Remy), Ced se consacre aujourd’hui avec son équipe à faire rayonner les entreprises, professionnels et courtiers immobiliers grâce à une approche créative, humaine et professionnelle. `,
     image: "/images/about/CED.png",
